@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planejamento do Professor - Everyday Conversation</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & VARIABLES ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-deep: #020617;
+  --bg-surface: #0f172a;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-card-hover: rgba(255,255,255,0.07);
+  --border-subtle: rgba(255,255,255,0.08);
+  --border-active: rgba(34,211,238,0.5);
+  --cyan: #22d3ee;
+  --indigo: #6366f1;
+  --purple: #818cf8;
+  --gold: #fbbf24;
+  --pink: #f472b6;
+  --blue: #60a5fa;
+  --green: #34d399;
+  --red: #ef4444;
+  --orange: #f97316;
+  --amber: #f59e0b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --color-flashcard: #ef4444;
+  --color-escrita: #f59e0b;
+  --color-traducao: #22c55e;
+  --color-pronuncia: #ec4899;
+  --color-listening1: #3b82f6;
+  --color-listening2: #ef4444;
+  --color-plataforma: #6366f1;
+  --color-verbos: #f97316;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(34,211,238,0.08), transparent 60%),
+    radial-gradient(900px 600px at 85% 20%, rgba(29,78,216,0.10), transparent 55%),
+    radial-gradient(900px 650px at 50% 80%, rgba(124,58,237,0.07), transparent 60%),
+    linear-gradient(180deg, #0b1430 0%, #070b16 55%, #050712 100%);
+  background-attachment: fixed;
+}
+
+/* ========== LAYOUT ========== */
+.container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+/* ========== HEADER ========== */
+.header {
+  padding: 32px 0 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 24px;
+  display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;
+}
+.header-left { flex: 1; min-width: 300px; }
+.header-brand { font-size: 11px; letter-spacing: 3px; color: var(--cyan); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+.header-title { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header-desc { color: var(--text-secondary); font-size: 14px; line-height: 1.5; margin-bottom: 14px; }
+.header-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 5px 12px; border-radius: 20px; font-size: 12px; color: var(--text-secondary); }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.btn-export {
+  background: linear-gradient(135deg, var(--cyan), var(--indigo));
+  color: #fff; border: none; padding: 10px 20px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-export:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(34,211,238,0.3); }
+
+/* ========== INPUT SECTION ========== */
+.input-section {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+  margin-bottom: 24px; overflow: hidden; transition: all 0.3s;
+}
+.input-header {
+  padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  transition: background 0.2s;
+}
+.input-header:hover { background: var(--bg-card-hover); }
+.input-header h3 { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.input-header h3 span { font-size: 18px; }
+.input-toggle { color: var(--text-muted); font-size: 20px; transition: transform 0.3s; }
+.input-toggle.open { transform: rotate(180deg); }
+.input-body { padding: 0 20px 20px; }
+.input-body.collapsed { display: none; }
+.email-textarea {
+  width: 100%; min-height: 200px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm); padding: 16px; color: var(--text-primary); font-family: 'Plus Jakarta Sans', monospace;
+  font-size: 13px; line-height: 1.6; resize: vertical; outline: none; transition: border 0.3s;
+}
+.email-textarea:focus { border-color: var(--cyan); }
+.email-textarea::placeholder { color: var(--text-muted); }
+.input-actions { display: flex; gap: 10px; margin-top: 12px; justify-content: flex-end; }
+.btn-generate {
+  background: linear-gradient(135deg, var(--green), #059669);
+  color: #fff; border: none; padding: 10px 24px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-generate:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(52,211,153,0.3); }
+.btn-clear {
+  background: transparent; color: var(--text-muted); border: 1px solid var(--border-subtle);
+  padding: 10px 18px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; transition: all 0.2s;
+}
+.btn-clear:hover { color: var(--text-primary); border-color: var(--text-muted); }
+
+/* ========== STATS BAR ========== */
+.stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+  padding: 18px 20px; position: relative; overflow: hidden;
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--indigo));
+}
+.stat-label { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.stat-value { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; }
+.stat-card:nth-child(3) .stat-value { color: var(--gold); }
+.stat-card:nth-child(3)::before { background: linear-gradient(90deg, var(--gold), var(--orange)); }
+
+/* ========== CARDS ========== */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border-subtle);
+  display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700;
+}
+.card-header span { font-size: 18px; }
+.card-body { padding: 20px; }
+
+/* ========== GRID LAYOUTS ========== */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.grid-2-wide { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 20px; margin-bottom: 24px; }
+.full-width { margin-bottom: 24px; }
+
+/* ========== DAILY PLAN ========== */
+.plan-badge {
+  display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 10px;
+  font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px;
+  background: rgba(34,211,238,0.15); color: var(--cyan);
+}
+.plan-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.day-badge {
+  display: inline-block; padding: 4px 14px; border-radius: 6px; font-size: 12px;
+  font-weight: 600; background: rgba(255,255,255,0.08); margin-bottom: 6px;
+}
+.plan-schedule { font-size: 13px; color: var(--text-secondary); margin-bottom: 18px; }
+.activity-list { list-style: none; }
+.activity-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.2s;
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-num { font-size: 13px; color: var(--text-muted); font-weight: 600; min-width: 20px; }
+.activity-name { flex: 1; font-size: 14px; font-weight: 500; }
+.activity-time {
+  font-size: 12px; padding: 3px 10px; border-radius: 6px; font-weight: 600;
+}
+.activity-time.has-time { background: rgba(34,211,238,0.15); color: var(--cyan); }
+.activity-time.no-time { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+.activity-check {
+  width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border-subtle);
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+  background: transparent; flex-shrink: 0;
+}
+.activity-check.checked {
+  background: var(--green); border-color: var(--green);
+}
+.activity-check.checked::after { content: '\2713'; color: #fff; font-size: 12px; font-weight: 800; }
+.activity-item.completed .activity-name { text-decoration: line-through; opacity: 0.5; }
+
+/* ========== PROGRESS ========== */
+.progress-label { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+.progress-percent { font-family: 'Outfit', sans-serif; font-size: 56px; font-weight: 900; color: var(--cyan); margin-bottom: 12px; }
+.progress-bar-container {
+  width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; margin-bottom: 10px;
+}
+.progress-bar-fill {
+  height: 100%; border-radius: 10px; transition: width 0.5s ease;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+}
+.progress-text { font-size: 13px; color: var(--text-secondary); }
+
+/* ========== STUDENT CARD ========== */
+.student-info { display: flex; gap: 14px; margin-bottom: 18px; }
+.student-avatar {
+  width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 18px; color: #fff; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--blue), var(--indigo));
+}
+.student-name { font-size: 16px; font-weight: 700; }
+.student-phone { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.student-section { margin-bottom: 14px; }
+.student-section-label {
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 6px; color: var(--red);
+}
+.student-section-value { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.student-meta { display: flex; flex-direction: column; gap: 6px; }
+.student-meta-row { display: flex; gap: 12px; font-size: 12px; }
+.student-meta-label { color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; font-size: 10px; min-width: 150px; }
+.student-meta-value { color: var(--text-secondary); font-weight: 500; }
+
+/* ========== TABLES ========== */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted);
+  font-weight: 600; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border-subtle);
+}
+.data-table td {
+  padding: 10px 12px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.duration-badge { color: var(--cyan); font-weight: 700; }
+.format-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+  background: rgba(99,102,241,0.15); color: var(--purple);
+}
+
+/* ========== REMAINING TIME ROW ========== */
+.remaining-row th { padding:4px 12px; border-bottom:none; font-size:13px; font-weight:700; letter-spacing:0; text-transform:none; }
+.remaining-val { display:inline-block; min-width:40px; padding:3px 8px; border-radius:6px; font-size:12px; font-weight:700; text-align:center; transition:all 0.3s; }
+.remaining-val.positive { background:rgba(34,211,238,0.15); color:var(--cyan); }
+.remaining-val.zero { background:rgba(52,211,153,0.2); color:var(--green); }
+.remaining-val.negative { background:rgba(239,68,68,0.2); color:var(--red); }
+
+/* ========== ORDER TABLE ========== */
+.order-controls { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.order-select {
+  flex: 1; min-width: 180px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text-primary); font-size: 13px;
+  font-family: inherit; outline: none; cursor: pointer;
+}
+.order-select:focus { border-color: var(--cyan); }
+
+/* ========== PREDICTION ========== */
+.prediction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.prediction-box {
+  background: rgba(0,0,0,0.2); border-radius: var(--radius-sm); padding: 16px; text-align: center;
+}
+.prediction-box-label { font-size: 10px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+.prediction-box-value { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; }
+.prediction-box-value.cyan { color: var(--cyan); }
+.prediction-box-value.gold { color: var(--gold); }
+.prediction-date { text-align: center; margin-top: 14px; font-size: 13px; color: var(--text-secondary); }
+.prediction-date strong { color: var(--text-primary); }
+
+/* ========== FOCUS MODE ========== */
+#focusMode { display: none; }
+#focusMode.visible { display: block; }
+
+.focus-greeting { text-align: center; padding: 48px 20px 20px; }
+.focus-greeting-emoji { font-size: 48px; margin-bottom: 12px; }
+.focus-greeting-text {
+  font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff 0%, var(--cyan) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.focus-date { color: var(--text-secondary); font-size: 14px; }
+
+.focus-schedule { text-align: center; margin-bottom: 28px; }
+.focus-schedule-pill {
+  display: inline-flex; align-items: center; gap: 14px;
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: 24px; padding: 10px 24px; font-size: 13px; color: var(--text-secondary);
+}
+.focus-schedule-pill strong { color: var(--cyan); font-weight: 700; }
+.focus-schedule-pill .pill-sep { color: var(--text-muted); }
+
+.focus-card {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+  max-width: 600px; margin: 0 auto 28px; overflow: hidden;
+}
+.focus-card-header {
+  padding: 14px 20px; border-bottom: 1px solid var(--border-subtle);
+  font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px;
+}
+.focus-activity-list { list-style: none; }
+.focus-activity-item {
+  display: flex; align-items: center; gap: 16px; padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.04); transition: all 0.2s; cursor: pointer;
+}
+.focus-activity-item:last-child { border-bottom: none; }
+.focus-activity-item:hover { background: var(--bg-card-hover); }
+.focus-activity-item.current { background: rgba(34,211,238,0.06); border-left: 3px solid var(--cyan); }
+.focus-activity-item.completed .focus-activity-name { text-decoration: line-through; opacity: 0.4; }
+.focus-activity-item.completed .focus-activity-time { opacity: 0.4; }
+.focus-activity-name { flex: 1; font-size: 15px; font-weight: 500; }
+.focus-activity-name small { display: block; font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+.focus-activity-time { font-size: 12px; padding: 4px 12px; border-radius: 8px; font-weight: 600; background: rgba(34,211,238,0.12); color: var(--cyan); }
+
+/* Activity icon circles */
+.act-icon {
+  width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; color: #fff; flex-shrink: 0; letter-spacing: 0;
+}
+.act-icon-lg { width: 42px; height: 42px; font-size: 16px; }
+.focus-activity-item.completed .act-icon { opacity: 0.4; }
+
+/* Editable time input */
+.time-edit {
+  background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: 8px;
+  color: var(--cyan); font-size: 13px; font-weight: 600; font-family: inherit;
+  padding: 6px 10px; width: 100px; text-align: center; outline: none; transition: border 0.2s;
+}
+.time-edit:focus { border-color: var(--cyan); }
+.time-edit::placeholder { color: var(--text-muted); }
+.time-edit-sm { width: 72px; padding: 5px 6px; font-size: 12px; }
+.order-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Focus Mode — Conversation Practice */
+.focus-conv-row { display:flex; align-items:center; gap:12px; padding:12px 20px; border-bottom:1px solid rgba(255,255,255,0.04); font-size:14px; }
+.focus-conv-row:last-child { border-bottom:none; }
+.focus-conv-day { font-weight:700; min-width:80px; color:var(--text-primary); }
+.focus-conv-time { flex:1; color:var(--text-secondary); }
+.focus-conv-format { padding:3px 10px; border-radius:6px; font-size:11px; font-weight:600; background:rgba(99,102,241,0.15); color:var(--purple); }
+.focus-conv-inicio { padding:14px 20px; font-size:13px; color:var(--text-secondary); border-bottom:1px solid rgba(255,255,255,0.04); }
+.focus-conv-inicio strong { color:var(--cyan); }
+
+.focus-check {
+  width: 28px; height: 28px; border-radius: 8px; border: 2px solid var(--border-subtle);
+  cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center;
+  background: transparent; flex-shrink: 0;
+}
+.focus-check:hover { border-color: var(--green); }
+.focus-check.checked { background: var(--green); border-color: var(--green); transform: scale(1.1); }
+.focus-check.checked::after { content: '\2713'; color: #fff; font-size: 16px; font-weight: 800; }
+
+.focus-progress { display: flex; flex-direction: column; align-items: center; margin-bottom: 28px; position: relative; }
+.focus-ring { width: 150px; height: 150px; }
+.focus-ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 8; }
+.focus-ring-fill {
+  fill: none; stroke: url(#focusGrad); stroke-width: 8; stroke-linecap: round;
+  stroke-dasharray: 326.73; stroke-dashoffset: 326.73;
+  transition: stroke-dashoffset 0.6s ease; transform: rotate(-90deg); transform-origin: center;
+}
+.focus-progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.focus-progress-percent { font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 900; color: var(--cyan); }
+.focus-progress-count { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+.focus-celebration { text-align: center; padding: 32px 20px; animation: fadeIn 0.5s ease both; }
+.focus-celebration-emoji { font-size: 56px; margin-bottom: 12px; animation: celebrateBounce 0.6s ease; }
+.focus-celebration-title {
+  font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.focus-celebration-text { color: var(--text-secondary); font-size: 14px; }
+@keyframes celebrateBounce { 0%{transform:scale(0)} 50%{transform:scale(1.3)} 70%{transform:scale(0.9)} 100%{transform:scale(1)} }
+
+.focus-toggle { text-align: center; padding: 20px; }
+.btn-mode-toggle {
+  background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-secondary);
+  padding: 10px 24px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.btn-mode-toggle:hover { border-color: var(--cyan); color: var(--text-primary); }
+
+.dashboard-mode-bar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+.btn-focus-back {
+  background: linear-gradient(135deg, var(--cyan), var(--indigo)); color: #fff; border: none;
+  padding: 8px 18px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.btn-focus-back:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(34,211,238,0.3); }
+
+/* ========== DASHBOARD HIDDEN ========== */
+#dashboard { display: none; }
+#dashboard.visible { display: block; }
+
+/* ========== WELCOME STATE ========== */
+.welcome-state {
+  text-align: center; padding: 80px 20px;
+}
+.welcome-icon { font-size: 64px; margin-bottom: 20px; }
+.welcome-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+.welcome-desc { color: var(--text-secondary); font-size: 14px; max-width: 400px; margin: 0 auto; line-height: 1.6; }
+
+/* ========== CONVERSATION PRACTICE ========== */
+.conv-start { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; }
+.conv-start strong { color: var(--text-primary); }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.4s ease both; }
+.fade-in-1 { animation-delay: 0.05s; }
+.fade-in-2 { animation-delay: 0.10s; }
+.fade-in-3 { animation-delay: 0.15s; }
+.fade-in-4 { animation-delay: 0.20s; }
+.fade-in-5 { animation-delay: 0.25s; }
+.fade-in-6 { animation-delay: 0.30s; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .grid-2, .grid-2-wide { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: 1fr; }
+  .header { flex-direction: column; }
+  .stat-value { font-size: 26px; }
+  .progress-percent { font-size: 40px; }
+  .prediction-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-brand">Everyday Conversation</div>
+      <h1 class="header-title">Planejamento do Professor</h1>
+      <p class="header-desc">Cole o texto recebido por email, revise os blocos e gere o planejamento visual do aluno com edicao em tempo real.</p>
+      <div class="header-tags">
+        <span class="tag">&#9889; Leitura automatica</span>
+        <span class="tag">&#9998; Edicao em tempo real</span>
+        <span class="tag">&#128196; Exportacao em HTML</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="btn-export" id="btnExport" onclick="exportHTML()" style="display:none;">
+        &#128196; Exportar HTML
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== INPUT SECTION ===== -->
+  <div class="input-section" id="inputSection">
+    <div class="input-header" onclick="toggleInput()">
+      <h3><span>&#9993;</span> Entrada (texto do email)</h3>
+      <span class="input-toggle open" id="inputToggle">&#9660;</span>
+    </div>
+    <div class="input-body" id="inputBody">
+      <textarea class="email-textarea" id="emailText" placeholder="Cole aqui o texto do email recebido do aluno...
+
+Exemplo:
+=== PLANO DE ESTUDOS - EVERYDAY CONVERSATION ===
+
+Aluno: Maria Silva
+Telefone: 11999998888
+
+--- OBJETIVOS E HABILIDADE ---
+Objetivos: Viagens internacionais, Entender musicas em ingles
+Habilidade principal: Audicao / Compreensao do ingles falado
+..."></textarea>
+      <div class="input-actions">
+        <button class="btn-clear" onclick="clearInput()">Limpar</button>
+        <button class="btn-generate" onclick="generatePlan()">&#9889; Gerar Planejamento</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WELCOME STATE ===== -->
+  <div id="welcomeState" class="welcome-state">
+    <div class="welcome-icon">&#128203;</div>
+    <h2 class="welcome-title">Nenhum planejamento carregado</h2>
+    <p class="welcome-desc">Cole o texto do email que voce recebeu do aluno no campo acima e clique em "Gerar Planejamento" para comecar.</p>
+  </div>
+
+  <!-- ===== FOCUS MODE ===== -->
+  <div id="focusMode">
+
+    <div class="focus-greeting fade-in">
+      <div class="focus-greeting-emoji" id="focusGreetingEmoji"></div>
+      <h1 class="focus-greeting-text" id="focusGreetingText"></h1>
+      <p class="focus-date" id="focusDate"></p>
+    </div>
+
+    <div class="focus-schedule fade-in fade-in-1" id="focusSchedule"></div>
+
+    <div class="focus-card fade-in fade-in-2">
+      <div class="focus-card-header">Suas tarefas de hoje</div>
+      <ul class="focus-activity-list" id="focusActivityList"></ul>
+    </div>
+
+    <div class="focus-progress fade-in fade-in-3">
+      <svg class="focus-ring" viewBox="0 0 120 120">
+        <defs>
+          <linearGradient id="focusGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#22d3ee"/>
+            <stop offset="100%" stop-color="#34d399"/>
+          </linearGradient>
+        </defs>
+        <circle class="focus-ring-bg" cx="60" cy="60" r="52"/>
+        <circle class="focus-ring-fill" cx="60" cy="60" r="52" id="focusRingFill"/>
+      </svg>
+      <div class="focus-progress-text">
+        <div class="focus-progress-percent" id="focusProgressPercent">0%</div>
+        <div class="focus-progress-count" id="focusProgressCount">0 de 0</div>
+      </div>
+    </div>
+
+    <div class="focus-celebration" id="focusCelebration" style="display:none;">
+      <div class="focus-celebration-emoji">&#127881;</div>
+      <h2 class="focus-celebration-title">Parabens!</h2>
+      <p class="focus-celebration-text">Voce concluiu todas as tarefas de hoje. Continue assim!</p>
+    </div>
+
+    <div class="focus-card fade-in" id="focusConversacao" style="display:none;">
+      <div class="focus-card-header">&#127908; Pratica de Conversacao</div>
+      <div id="focusConvBody"></div>
+    </div>
+
+    <div class="focus-toggle fade-in fade-in-4">
+      <button class="btn-mode-toggle" onclick="switchToFullMode()">&#128202; Modo Completo</button>
+    </div>
+
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <div id="dashboard">
+
+    <div class="dashboard-mode-bar fade-in">
+      <button class="btn-focus-back" onclick="switchToFocusMode()">&#9201; Modo Foco</button>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar fade-in fade-in-1">
+      <div class="stat-card">
+        <div class="stat-label">&#128197; Dias por semana</div>
+        <div class="stat-value" id="statDays">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">&#9201; Tempo por dia</div>
+        <div class="stat-value" id="statTime">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">&#127919; Previsao</div>
+        <div class="stat-value" id="statPrevisao">—</div>
+      </div>
+    </div>
+
+    <!-- Daily Plan + Progress -->
+    <div class="grid-2-wide fade-in fade-in-2">
+      <div class="card">
+        <div class="card-header"><span>&#9989;</span> Modo Aluno - Rotina de Hoje</div>
+        <div class="card-body">
+          <div class="plan-badge">Plano Diario</div>
+          <h2 class="plan-title">Hoje voce precisa concluir estas tarefas</h2>
+          <div class="day-badge" id="dayBadge">Dia: —</div>
+          <div class="plan-schedule" id="planSchedule">Horario planejado: —</div>
+          <ul class="activity-list" id="activityList"></ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:300px;">
+          <div class="progress-label">Progresso Diario</div>
+          <div class="progress-percent" id="progressPercent">0%</div>
+          <div class="progress-bar-container" style="width:100%;">
+            <div class="progress-bar-fill" id="progressBar" style="width:0%;"></div>
+          </div>
+          <div class="progress-text" id="progressText">0 de 0 atividades concluidas.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student + Schedule -->
+    <div class="grid-2 fade-in fade-in-3">
+      <div class="card">
+        <div class="card-header"><span>&#128100;</span> Aluno</div>
+        <div class="card-body">
+          <div class="student-info">
+            <div class="student-avatar" id="studentAvatar">—</div>
+            <div>
+              <div class="student-name" id="studentName">—</div>
+              <div class="student-phone" id="studentPhone">—</div>
+            </div>
+          </div>
+          <div class="student-section">
+            <div class="student-section-label">Objetivos</div>
+            <div class="student-section-value" id="studentObjectives">—</div>
+          </div>
+          <div class="student-meta">
+            <div class="student-meta-row">
+              <span class="student-meta-label">Habilidade principal</span>
+              <span class="student-meta-value" id="studentSkill">—</span>
+            </div>
+            <div class="student-meta-row">
+              <span class="student-meta-label">Nivel e Creditos</span>
+              <span class="student-meta-value" id="studentLevel">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span>&#128197;</span> Dias e Horarios</div>
+        <div class="card-body">
+          <table class="data-table" id="scheduleTable">
+            <thead><tr><th>Dia</th><th>Planejamento</th><th>Duracao</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Order -->
+    <div class="full-width fade-in fade-in-4">
+      <div class="card">
+        <div class="card-header"><span>&#128300;</span> Tempo por Dia (editavel)</div>
+        <div class="card-body">
+          <div class="order-table-wrap">
+            <table class="data-table" id="orderTable">
+              <thead id="orderTableHead"><tr><th>#</th><th>Atividade</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversation + Prediction -->
+    <div class="grid-2 fade-in fade-in-5">
+      <div class="card">
+        <div class="card-header"><span>&#127908;</span> Pratica de Conversacao</div>
+        <div class="card-body">
+          <div class="conv-start" id="convStart">Inicio: <strong>—</strong></div>
+          <table class="data-table" id="convTable">
+            <thead><tr><th>Dia</th><th>Horario</th><th>Formato</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span>&#128202;</span> Previsao</div>
+        <div class="card-body">
+          <div class="prediction-grid">
+            <div class="prediction-box">
+              <div class="prediction-box-label">Horas Restantes</div>
+              <div class="prediction-box-value cyan" id="predHours">—</div>
+            </div>
+            <div class="prediction-box">
+              <div class="prediction-box-label">Previsao</div>
+              <div class="prediction-box-value gold" id="predTime">—</div>
+            </div>
+          </div>
+          <div class="prediction-date" id="predDate"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /dashboard -->
+
+</div><!-- /container -->
+
+<script>
+/* ========== STATE ========== */
+let planData = null;
+let completedActivities = new Set();
+let currentMode = 'focus';
+
+/* ========== FOCUS MODE FUNCTIONS ========== */
+function getGreeting(name) {
+  const hour = new Date().getHours();
+  let greeting, emoji;
+  if (hour >= 5 && hour < 12) { greeting = 'Bom dia'; emoji = '\u2600\uFE0F'; }
+  else if (hour >= 12 && hour < 18) { greeting = 'Boa tarde'; emoji = '\uD83C\uDF24\uFE0F'; }
+  else { greeting = 'Boa noite'; emoji = '\uD83C\uDF19'; }
+  const firstName = (name || 'Aluno').split(' ')[0];
+  return { greeting: greeting + ', ' + firstName + '!', emoji };
+}
+
+function getFormattedDate() {
+  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  const s = new Date().toLocaleDateString('pt-BR', options);
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+function renderFocusMode(data) {
+  const { greeting, emoji } = getGreeting(data.aluno);
+  document.getElementById('focusGreetingEmoji').textContent = emoji;
+  document.getElementById('focusGreetingText').textContent = greeting;
+  document.getElementById('focusDate').textContent = getFormattedDate();
+
+  const today = getCurrentDay();
+  const todaySchedule = data.diasHorarios.find(d =>
+    d.dia.toLowerCase().replace(/[çã]/g, c => c === 'ç' ? 'c' : 'a') ===
+    today.toLowerCase().replace(/[çã]/g, c => c === 'ç' ? 'c' : 'a')
+  );
+
+  const schedEl = document.getElementById('focusSchedule');
+  if (todaySchedule) {
+    schedEl.innerHTML = '<div class="focus-schedule-pill"><strong>' + today + '</strong><span class="pill-sep">|</span>' +
+      todaySchedule.horario + '<span class="pill-sep">|</span>' + (data.tempoPorDia || '') + '</div>';
+  } else {
+    schedEl.innerHTML = '<div class="focus-schedule-pill"><strong>' + today + '</strong><span class="pill-sep">|</span>Sem aula planejada para hoje</div>';
+  }
+
+  const list = document.getElementById('focusActivityList');
+  list.innerHTML = '';
+  data.atividades.forEach((act, i) => {
+    const timeToday = (act.times && act.times[today]) ? act.times[today] : act.time;
+    const li = document.createElement('li');
+    li.className = 'focus-activity-item';
+    li.id = 'focus-act-' + i;
+    if (completedActivities.has(i)) li.classList.add('completed');
+    li.innerHTML =
+      '<div class="focus-check' + (completedActivities.has(i) ? ' checked' : '') +
+      '" onclick="toggleFocusActivity(' + i + ')"></div>' +
+      actIconHTML(act.name, false) +
+      '<span class="focus-activity-name">' + act.name +
+      (timeToday ? '<small>' + timeToday + '</small>' : '') + '</span>' +
+      (timeToday ? '<span class="focus-activity-time">' + timeToday + '</span>' : '');
+    list.appendChild(li);
+  });
+
+  highlightCurrentActivity();
+  updateFocusProgress();
+
+  // Conversation Practice section in Focus Mode
+  const convEl = document.getElementById('focusConversacao');
+  const convBody = document.getElementById('focusConvBody');
+  if (convEl && convBody && data.conversacao && data.conversacao.horarios.length > 0) {
+    let inicioText = data.conversacao.inicio || '';
+    if (data.conversacao.dataInicio) {
+      const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+      inicioText += ' — ' + data.conversacao.dataInicio.toLocaleDateString('pt-BR', opts);
+    }
+    let rows = data.conversacao.horarios.map(h =>
+      '<div class="focus-conv-row">' +
+        '<span class="focus-conv-day">' + h.dia + '</span>' +
+        '<span class="focus-conv-time">' + h.horario + '</span>' +
+        '<span class="focus-conv-format">' + h.formato + '</span>' +
+      '</div>'
+    ).join('');
+    convBody.innerHTML =
+      '<div class="focus-conv-inicio">Inicio: <strong>' + inicioText + '</strong></div>' + rows;
+    convEl.style.display = '';
+  } else if (convEl) {
+    convEl.style.display = 'none';
+  }
+}
+
+function toggleFocusActivity(index) {
+  if (completedActivities.has(index)) {
+    completedActivities.delete(index);
+  } else {
+    completedActivities.add(index);
+  }
+  const focusItem = document.getElementById('focus-act-' + index);
+  if (focusItem) {
+    focusItem.querySelector('.focus-check').classList.toggle('checked');
+    focusItem.classList.toggle('completed');
+  }
+  const dashItem = document.getElementById('act-' + index);
+  if (dashItem) {
+    const dc = dashItem.querySelector('.activity-check');
+    if (completedActivities.has(index)) { dc.classList.add('checked'); dashItem.classList.add('completed'); }
+    else { dc.classList.remove('checked'); dashItem.classList.remove('completed'); }
+  }
+  highlightCurrentActivity();
+  updateFocusProgress();
+  updateProgress();
+}
+
+function highlightCurrentActivity() {
+  if (!planData) return;
+  document.querySelectorAll('.focus-activity-item').forEach(el => el.classList.remove('current'));
+  for (let i = 0; i < planData.atividades.length; i++) {
+    if (!completedActivities.has(i)) {
+      const el = document.getElementById('focus-act-' + i);
+      if (el) el.classList.add('current');
+      break;
+    }
+  }
+}
+
+function updateFocusProgress() {
+  if (!planData) return;
+  const total = planData.atividades.length;
+  const done = completedActivities.size;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  document.getElementById('focusProgressPercent').textContent = pct + '%';
+  document.getElementById('focusProgressCount').textContent = done + ' de ' + total;
+  const circumference = 2 * Math.PI * 52;
+  document.getElementById('focusRingFill').style.strokeDashoffset = circumference - (circumference * pct / 100);
+  const celeb = document.getElementById('focusCelebration');
+  celeb.style.display = pct === 100 ? 'block' : 'none';
+}
+
+function switchToFullMode() {
+  currentMode = 'full';
+  document.getElementById('focusMode').classList.remove('visible');
+  document.getElementById('dashboard').classList.add('visible');
+  document.querySelector('.header').style.display = 'flex';
+  document.getElementById('inputSection').style.display = 'block';
+}
+
+function switchToFocusMode() {
+  currentMode = 'focus';
+  document.getElementById('dashboard').classList.remove('visible');
+  document.getElementById('focusMode').classList.add('visible');
+  document.querySelector('.header').style.display = 'none';
+  document.getElementById('inputSection').style.display = 'none';
+  renderFocusMode(planData);
+}
+
+/* ========== TOGGLE INPUT ========== */
+function toggleInput() {
+  const body = document.getElementById('inputBody');
+  const toggle = document.getElementById('inputToggle');
+  body.classList.toggle('collapsed');
+  toggle.classList.toggle('open');
+}
+
+function clearInput() {
+  document.getElementById('emailText').value = '';
+}
+
+/* ========== PARSER ========== */
+function parseEmailText(text) {
+  const data = {
+    aluno: '', telefone: '', objetivos: '', habilidade: '',
+    nivel: '', horasCreditadas: '', tempoPorDia: '', diasPorSemana: '',
+    diasHorarios: [], atividades: [], conversacao: { inicio: '', horarios: [] },
+    previsao: { horas: '', tempo: '', data: '' }
+  };
+
+  // Normalize
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  // Student info
+  const alunoMatch = text.match(/Aluno:\s*(.+)/i);
+  if (alunoMatch) data.aluno = alunoMatch[1].trim();
+
+  const telMatch = text.match(/Telefone:\s*(.+)/i);
+  if (telMatch) data.telefone = telMatch[1].trim();
+
+  // Objectives
+  const objMatch = text.match(/Objetivos:\s*(.+)/i);
+  if (objMatch) data.objetivos = objMatch[1].trim();
+
+  const habMatch = text.match(/Habilidade principal:\s*(.+)/i);
+  if (habMatch) data.habilidade = habMatch[1].trim();
+
+  // Level info
+  const nivelMatch = text.match(/N[ií]vel:\s*(.+)/i);
+  if (nivelMatch) data.nivel = nivelMatch[1].trim();
+
+  const horasCredMatch = text.match(/Horas creditadas:\s*(.+)/i);
+  if (horasCredMatch) data.horasCreditadas = horasCredMatch[1].trim();
+
+  const tempoMatch = text.match(/Tempo por dia:\s*(.+)/i);
+  if (tempoMatch) data.tempoPorDia = tempoMatch[1].trim();
+
+  const diasMatch = text.match(/Dias por semana:\s*(\d+)/i);
+  if (diasMatch) data.diasPorSemana = diasMatch[1].trim();
+
+  // Days & schedules
+  const diasSection = text.match(/---\s*DIAS E HOR[AÁ]RIOS\s*---\n([\s\S]*?)(?=\n---|\n===|$)/i);
+  if (diasSection) {
+    const lines = diasSection[1].trim().split('\n');
+    for (const line of lines) {
+      const m = line.match(/^\s*(Segunda|Terca|Ter[cç]a|Quarta|Quinta|Sexta|Sabado|S[aá]bado|Domingo)[\s:]+(.+)/i);
+      if (m) {
+        data.diasHorarios.push({ dia: m[1].trim(), horario: m[2].trim() });
+      }
+    }
+  }
+
+  // Activities
+  const ativSection = text.match(/---\s*ORDEM DAS ATIVIDADES\s*---\n([\s\S]*?)(?=\n---|\n===|$)/i);
+  if (ativSection) {
+    const lines = ativSection[1].trim().split('\n');
+    for (const line of lines) {
+      const m = line.match(/^\s*(\d+)\.\s*(.+)/);
+      if (m) {
+        const fullName = m[2].trim();
+        const timeMatch = fullName.match(/\((\d+\s*min)\)/);
+        const name = fullName.replace(/\(\d+\s*min\)/, '').trim();
+        data.atividades.push({
+          num: parseInt(m[1]),
+          name: name,
+          time: timeMatch ? timeMatch[1] : null,
+          times: {}
+        });
+      }
+    }
+  }
+
+  // Auto-inject "Plataforma de Ensino" as 2nd activity (after Flashcard)
+  if (data.atividades.length > 0) {
+    const hasPlataforma = data.atividades.some(a => a.name.toLowerCase().includes('plataforma'));
+    if (!hasPlataforma) {
+      // Find Flashcard index (usually 0)
+      const flashIdx = data.atividades.findIndex(a => a.name.toLowerCase().includes('flashcard'));
+      const insertAt = flashIdx >= 0 ? flashIdx + 1 : 1;
+      data.atividades.splice(insertAt, 0, {
+        num: insertAt + 1,
+        name: 'Plataforma de Ensino',
+        time: '20 min',
+        times: {}
+      });
+      // Re-number all activities
+      data.atividades.forEach((a, i) => { a.num = i + 1; });
+    }
+  }
+
+  // Conversation practice
+  const convSection = text.match(/---\s*PR[AÁ]TICA DE CONVERSA[CÇ][AÃ]O\s*---\n([\s\S]*?)(?=\n---|\n===|$)/i);
+  if (convSection) {
+    const convText = convSection[1].trim();
+    const inicioMatch = convText.match(/In[ií]cio:\s*(.+)/i);
+    if (inicioMatch) data.conversacao.inicio = inicioMatch[1].trim();
+
+    const lines = convText.split('\n');
+    for (const line of lines) {
+      const m = line.match(/^\s*(Segunda|Terca|Ter[cç]a|Quarta|Quinta|Sexta|Sabado|S[aá]bado|Domingo)\s+(\d{1,2}h\d{0,2})\s*-\s*(\d{1,2}h\d{0,2})\s*\((.+?)\)/i);
+      if (m) {
+        data.conversacao.horarios.push({
+          dia: m[1].trim(),
+          horario: m[2].trim() + ' - ' + m[3].trim(),
+          formato: m[4].trim()
+        });
+      }
+    }
+
+    // Calculate start date from "inicio"
+    const inicioLower = (data.conversacao.inicio || '').toLowerCase();
+    const hoje = new Date();
+    if (inicioLower === 'imediato') {
+      data.conversacao.dataInicio = new Date(hoje);
+    } else {
+      const diasNum = inicioLower.match(/(\d+)\s*dias?/);
+      const mesesNum = inicioLower.match(/(\d+)\s*m[eê]s(es)?/);
+      if (diasNum) {
+        const dt = new Date(hoje); dt.setDate(dt.getDate() + parseInt(diasNum[1]));
+        data.conversacao.dataInicio = dt;
+      } else if (mesesNum) {
+        const dt = new Date(hoje); dt.setMonth(dt.getMonth() + parseInt(mesesNum[1]));
+        data.conversacao.dataInicio = dt;
+      }
+    }
+  }
+
+  // Prediction
+  const prevSection = text.match(/---\s*PREVIS[AÃ]O\s*---\n([\s\S]*?)(?=\n---|\n===|$)/i);
+  if (prevSection) {
+    const prevText = prevSection[1].trim();
+    const horasMatch = prevText.match(/Horas restantes[^:]*:\s*(.+)/i);
+    if (horasMatch) data.previsao.horas = horasMatch[1].trim();
+
+    const prevMatch = prevText.match(/Previs[aã]o:\s*(.+)/i);
+    if (prevMatch) data.previsao.tempo = prevMatch[1].trim();
+
+    const dataMatch = prevText.match(/Data estimada:\s*(.+)/i);
+    if (dataMatch) data.previsao.data = dataMatch[1].trim();
+  }
+
+  return data;
+}
+
+/* ========== GET CURRENT DAY ========== */
+function getCurrentDay() {
+  const days = ['Domingo', 'Segunda', 'Terca', 'Quarta', 'Quinta', 'Sexta', 'Sabado'];
+  return days[new Date().getDay()];
+}
+
+function getInitials(name) {
+  return name.split(' ').filter(w => w.length > 2).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+}
+
+function getActivityMeta(name) {
+  const n = name.toLowerCase();
+  if (n.includes('flashcard')) return { color: '#ef4444', letter: 'F', icon: '&#128209;' };
+  if (n.includes('plataforma')) return { color: '#6366f1', letter: 'P', icon: '&#127891;' };
+  if (n.includes('escrita') || n.includes('gramatica') || n.includes('gram')) return { color: '#f59e0b', letter: 'E', icon: '&#9998;' };
+  if (n.includes('traduc')) return { color: '#22c55e', letter: 'T', icon: '&#127760;' };
+  if (n.includes('pronunc') || n.includes('pronun')) return { color: '#ec4899', letter: 'P', icon: '&#127908;' };
+  if (n.includes('listening 2')) return { color: '#ef4444', letter: '&#9654;', icon: '&#127911;' };
+  if (n.includes('listening 1') || n.includes('listening')) return { color: '#3b82f6', letter: 'L', icon: '&#127911;' };
+  if (n.includes('verbo') || n.includes('treinador')) return { color: '#f97316', letter: 'A', icon: '&#128218;' };
+  return { color: '#818cf8', letter: name.charAt(0).toUpperCase(), icon: '&#128218;' };
+}
+
+function actIconHTML(name, large) {
+  const m = getActivityMeta(name);
+  const cls = large ? 'act-icon act-icon-lg' : 'act-icon';
+  return '<div class="' + cls + '" style="background:' + m.color + ';">' + m.letter + '</div>';
+}
+
+/* ========== RENDER ========== */
+function renderDashboard(data) {
+  planData = data;
+  completedActivities = new Set();
+
+  // Populate per-day times with defaults
+  data.atividades.forEach(act => {
+    if (!act.times || Object.keys(act.times).length === 0) {
+      act.times = {};
+      data.diasHorarios.forEach(d => {
+        act.times[d.dia] = act.time || '';
+      });
+    }
+  });
+
+  // Stats
+  document.getElementById('statDays').textContent = data.diasPorSemana || '—';
+  document.getElementById('statTime').textContent = data.tempoPorDia || '—';
+  document.getElementById('statPrevisao').textContent = data.previsao.tempo || '—';
+
+  // Current day
+  const today = getCurrentDay();
+  const todaySchedule = data.diasHorarios.find(d =>
+    d.dia.toLowerCase().replace(/[çã]/g, c => c === 'ç' ? 'c' : 'a') ===
+    today.toLowerCase().replace(/[çã]/g, c => c === 'ç' ? 'c' : 'a')
+  );
+
+  document.getElementById('dayBadge').textContent = 'Dia: ' + today;
+  document.getElementById('planSchedule').textContent =
+    'Horario planejado: ' + (todaySchedule ? todaySchedule.horario : 'Sem aula hoje');
+
+  // Activity list (daily)
+  const actList = document.getElementById('activityList');
+  actList.innerHTML = '';
+  data.atividades.forEach((act, i) => {
+    const timeToday = (act.times && act.times[today]) ? act.times[today] : act.time;
+    const li = document.createElement('li');
+    li.className = 'activity-item';
+    li.id = 'act-' + i;
+    li.innerHTML = `
+      ${actIconHTML(act.name, false)}
+      <span class="activity-name">${act.name}${timeToday ? ' (' + timeToday + ')' : ''}</span>
+      <span class="activity-time ${timeToday ? 'has-time' : 'no-time'}">${timeToday || 'sem tempo'}</span>
+      <div class="activity-check" onclick="toggleActivity(${i})"></div>
+    `;
+    actList.appendChild(li);
+  });
+
+  updateProgress();
+
+  // Student info
+  document.getElementById('studentAvatar').textContent = getInitials(data.aluno || 'A');
+  document.getElementById('studentName').textContent = data.aluno || '—';
+  document.getElementById('studentPhone').textContent = data.telefone || '—';
+  document.getElementById('studentObjectives').textContent = data.objetivos || '—';
+  document.getElementById('studentSkill').textContent = data.habilidade || '—';
+  document.getElementById('studentLevel').textContent =
+    (data.nivel || '—') + (data.horasCreditadas ? ' \u2022 ' + data.horasCreditadas : '');
+
+  // Schedule table
+  const schedBody = document.getElementById('scheduleTable').querySelector('tbody');
+  schedBody.innerHTML = '';
+  data.diasHorarios.forEach(d => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${d.dia}</td><td>${d.horario}</td><td class="duration-badge">${data.tempoPorDia || '—'}</td>`;
+    schedBody.appendChild(tr);
+  });
+
+  // Order table (Atividade x Dia grid with editable times)
+  const dias = data.diasHorarios.map(d => d.dia);
+  const orderHead = document.getElementById('orderTableHead');
+  const totalMin = parseInt(data.tempoPorDia) || 0;
+  orderHead.innerHTML = '<tr><th>#</th><th>Atividade</th>' +
+    dias.map(d => '<th style="text-align:center;">' + d.substring(0, 3) + '</th>').join('') + '</tr>' +
+    '<tr class="remaining-row"><th></th><th style="font-size:11px;color:var(--text-muted);">Restante</th>' +
+    dias.map(d => '<th style="text-align:center;"><span class="remaining-val positive" id="remaining-' + d + '">' + totalMin + '</span></th>').join('') + '</tr>';
+
+  const orderBody = document.getElementById('orderTable').querySelector('tbody');
+  orderBody.innerHTML = '';
+  data.atividades.forEach((act, i) => {
+    const tr = document.createElement('tr');
+    let dayCells = dias.map(d =>
+      '<td style="text-align:center;"><input class="time-edit time-edit-sm" data-act="' + i + '" data-day="' + d + '" value="' +
+      (act.times[d] || '') + '" placeholder="\u2014" oninput="updateActivityTimePorDia(' + i + ',\'' + d + '\',this.value)"></td>'
+    ).join('');
+    tr.innerHTML =
+      '<td style="font-weight:700;color:var(--text-muted);">' + act.num + '</td>' +
+      '<td><div style="display:flex;align-items:center;gap:10px;">' + actIconHTML(act.name, false) + ' <span style="font-weight:500;">' + act.name + '</span></div></td>' +
+      dayCells;
+    orderBody.appendChild(tr);
+  });
+  updateRemainingTimes();
+
+  // Conversation
+  document.getElementById('convStart').innerHTML = 'Inicio: <strong>' + (data.conversacao.inicio || '—') + '</strong>';
+  const convBody = document.getElementById('convTable').querySelector('tbody');
+  convBody.innerHTML = '';
+  if (data.conversacao.horarios.length === 0) {
+    convBody.innerHTML = '<tr><td colspan="3" style="color:var(--text-muted);text-align:center;">Nenhuma pratica agendada</td></tr>';
+  } else {
+    data.conversacao.horarios.forEach(h => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${h.dia}</td><td>${h.horario}</td><td><span class="format-badge">${h.formato}</span></td>`;
+      convBody.appendChild(tr);
+    });
+  }
+
+  // Prediction
+  document.getElementById('predHours').textContent = data.previsao.horas || '—';
+  document.getElementById('predTime').textContent = data.previsao.tempo || '—';
+  const predDateEl = document.getElementById('predDate');
+  if (data.previsao.data) {
+    predDateEl.innerHTML = 'Data estimada: <strong>' + data.previsao.data + '</strong>';
+  } else {
+    predDateEl.innerHTML = '';
+  }
+
+  // Hide welcome
+  document.getElementById('welcomeState').style.display = 'none';
+  document.getElementById('btnExport').style.display = 'flex';
+
+  // Collapse input
+  document.getElementById('inputBody').classList.add('collapsed');
+  document.getElementById('inputToggle').classList.remove('open');
+
+  // Default to Focus Mode
+  renderFocusMode(data);
+  document.getElementById('focusMode').classList.add('visible');
+  document.getElementById('dashboard').classList.remove('visible');
+  document.querySelector('.header').style.display = 'none';
+  document.getElementById('inputSection').style.display = 'none';
+  currentMode = 'focus';
+}
+
+/* ========== TOGGLE ACTIVITY ========== */
+function toggleActivity(index) {
+  const item = document.getElementById('act-' + index);
+  const check = item.querySelector('.activity-check');
+  if (completedActivities.has(index)) {
+    completedActivities.delete(index);
+    check.classList.remove('checked');
+    item.classList.remove('completed');
+  } else {
+    completedActivities.add(index);
+    check.classList.add('checked');
+    item.classList.add('completed');
+  }
+  updateProgress();
+  // Sync focus mode
+  const focusItem = document.getElementById('focus-act-' + index);
+  if (focusItem) {
+    const fc = focusItem.querySelector('.focus-check');
+    if (completedActivities.has(index)) { fc.classList.add('checked'); focusItem.classList.add('completed'); }
+    else { fc.classList.remove('checked'); focusItem.classList.remove('completed'); }
+    highlightCurrentActivity();
+    updateFocusProgress();
+  }
+}
+
+function updateActivityTimePorDia(actIndex, dia, value) {
+  if (!planData) return;
+  planData.atividades[actIndex].times[dia] = value.trim();
+  updateRemainingTimes();
+  // Only sync live views if this is today's day
+  const today = getCurrentDay();
+  if (dia !== today) return;
+  const v = value.trim();
+  // Sync dashboard activity list
+  const dashItem = document.getElementById('act-' + actIndex);
+  if (dashItem) {
+    const timeSpan = dashItem.querySelector('.activity-time');
+    timeSpan.className = 'activity-time ' + (v ? 'has-time' : 'no-time');
+    timeSpan.textContent = v || 'sem tempo';
+    const nameSpan = dashItem.querySelector('.activity-name');
+    nameSpan.textContent = planData.atividades[actIndex].name + (v ? ' (' + v + ')' : '');
+  }
+  // Sync focus mode activity list
+  const focusItem = document.getElementById('focus-act-' + actIndex);
+  if (focusItem) {
+    const fName = focusItem.querySelector('.focus-activity-name');
+    fName.innerHTML = planData.atividades[actIndex].name + (v ? '<small>' + v + '</small>' : '');
+    const fTime = focusItem.querySelector('.focus-activity-time');
+    if (fTime) { fTime.textContent = v; fTime.style.display = v ? '' : 'none'; }
+  }
+}
+
+function updateRemainingTimes() {
+  if (!planData) return;
+  var totalMin = parseInt(planData.tempoPorDia) || 0;
+  var dias = planData.diasHorarios.map(function(d) { return d.dia; });
+  dias.forEach(function(d) {
+    var sum = 0;
+    planData.atividades.forEach(function(act, i) {
+      var input = document.querySelector('[data-act="' + i + '"][data-day="' + d + '"]');
+      sum += parseInt(input ? input.value : act.times[d]) || 0;
+    });
+    var remaining = totalMin - sum;
+    var el = document.getElementById('remaining-' + d);
+    if (el) {
+      el.textContent = remaining;
+      el.className = 'remaining-val ' + (remaining > 0 ? 'positive' : remaining === 0 ? 'zero' : 'negative');
+    }
+  });
+}
+
+function getEditedActivities() {
+  if (!planData) return [];
+  const dias = planData.diasHorarios.map(d => d.dia);
+  return planData.atividades.map((act, i) => {
+    const times = {};
+    dias.forEach(d => {
+      const input = document.querySelector('[data-act="' + i + '"][data-day="' + d + '"]');
+      times[d] = input ? input.value.trim() : (act.times[d] || '');
+    });
+    return { num: act.num, name: act.name, times: times };
+  });
+}
+
+function updateProgress() {
+  if (!planData) return;
+  const total = planData.atividades.length;
+  const done = completedActivities.size;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  document.getElementById('progressPercent').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = done + ' de ' + total + ' atividades concluidas.';
+}
+
+/* ========== GENERATE ========== */
+function generatePlan() {
+  const text = document.getElementById('emailText').value.trim();
+  if (!text) {
+    alert('Cole o texto do email do aluno primeiro!');
+    return;
+  }
+  const data = parseEmailText(text);
+  if (!data.aluno) {
+    alert('Nao foi possivel encontrar os dados do aluno. Verifique o formato do texto.');
+    return;
+  }
+  renderDashboard(data);
+}
+
+/* ========== EXPORT HTML ========== */
+function exportHTML() {
+  if (!planData) return;
+  const d = planData;
+  const acts = getEditedActivities();
+
+  // Build activity meta for embedding
+  let actsMeta = acts.map(a => {
+    const meta = getActivityMeta(a.name);
+    return { num: a.num, name: a.name, times: a.times, color: meta.color, letter: meta.letter };
+  });
+
+  // Schedule table
+  let schedRows = '';
+  d.diasHorarios.forEach(s => {
+    schedRows += `<tr><td>${s.dia}</td><td>${s.horario}</td><td class="duration-badge">${d.tempoPorDia || '\u2014'}</td></tr>`;
+  });
+
+  // Order table (Atividade x Dia grid, read-only for student)
+  const dias = d.diasHorarios.map(x => x.dia);
+  const orderTh = dias.map(x => '<th style="text-align:center;">' + x.substring(0, 3) + '</th>').join('');
+  let orderRows = '';
+  actsMeta.forEach(a => {
+    let dayCells = dias.map(x => {
+      const t = a.times[x] || '';
+      return '<td style="text-align:center;"><span class="activity-time ' + (t ? 'has-time' : 'no-time') + '">' + (t || '\u2014') + '</span></td>';
+    }).join('');
+    orderRows += '<tr><td style="font-weight:700;color:var(--text-muted);">' + a.num + '</td>' +
+      '<td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:' + a.color + ';">' + a.letter + '</div><span style="font-weight:500;">' + a.name + '</span></div></td>' +
+      dayCells + '</tr>';
+  });
+
+  // Conversation rows
+  let convRows = '';
+  if (d.conversacao.horarios.length === 0) {
+    convRows = '<tr><td colspan="3" style="color:var(--text-muted);text-align:center;">Nenhuma pratica agendada</td></tr>';
+  } else {
+    d.conversacao.horarios.forEach(h => {
+      convRows += `<tr><td>${h.dia}</td><td>${h.horario}</td><td><span class="format-badge">${h.formato}</span></td></tr>`;
+    });
+  }
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Estudos - ${d.aluno}</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg-deep:#020617;--bg-surface:#0f172a;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.07);--border-subtle:rgba(255,255,255,0.08);--border-active:rgba(34,211,238,0.5);--cyan:#22d3ee;--indigo:#6366f1;--purple:#818cf8;--gold:#fbbf24;--pink:#f472b6;--blue:#60a5fa;--green:#34d399;--red:#ef4444;--orange:#f97316;--amber:#f59e0b;--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--radius:16px;--radius-sm:12px}
+body{font-family:'Plus Jakarta Sans',sans-serif;background-color:var(--bg-deep);color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased;background:radial-gradient(1200px 700px at 15% 10%,rgba(34,211,238,0.08),transparent 60%),radial-gradient(900px 600px at 85% 20%,rgba(29,78,216,0.10),transparent 55%),radial-gradient(900px 650px at 50% 80%,rgba(124,58,237,0.07),transparent 60%),linear-gradient(180deg,#0b1430 0%,#070b16 55%,#050712 100%);background-attachment:fixed}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+
+/* Focus Mode */
+#focusMode{display:none}#focusMode.visible{display:block}
+.focus-greeting{text-align:center;padding:48px 20px 20px}
+.focus-greeting-emoji{font-size:48px;margin-bottom:12px}
+.focus-greeting-text{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.focus-date{color:var(--text-secondary);font-size:14px}
+.focus-schedule{text-align:center;margin-bottom:28px}
+.focus-schedule-pill{display:inline-flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:24px;padding:10px 24px;font-size:13px;color:var(--text-secondary)}
+.focus-schedule-pill strong{color:var(--cyan);font-weight:700}
+.focus-schedule-pill .pill-sep{color:var(--text-muted)}
+.focus-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);max-width:600px;margin:0 auto 28px;overflow:hidden}
+.focus-card-header{padding:14px 20px;border-bottom:1px solid var(--border-subtle);font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px}
+.focus-activity-list{list-style:none}
+.focus-activity-item{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.04);transition:all 0.2s;cursor:pointer}
+.focus-activity-item:last-child{border-bottom:none}
+.focus-activity-item:hover{background:var(--bg-card-hover)}
+.focus-activity-item.current{background:rgba(34,211,238,0.06);border-left:3px solid var(--cyan)}
+.focus-activity-item.completed .focus-activity-name{text-decoration:line-through;opacity:0.4}
+.focus-activity-item.completed .focus-activity-time{opacity:0.4}
+.focus-activity-item.completed .act-icon{opacity:0.4}
+.focus-activity-name{flex:1;font-size:15px;font-weight:500}
+.focus-activity-name small{display:block;font-size:11px;color:var(--text-muted);font-weight:400;margin-top:2px}
+.focus-activity-time{font-size:12px;padding:4px 12px;border-radius:8px;font-weight:600;background:rgba(34,211,238,0.12);color:var(--cyan)}
+.act-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0;letter-spacing:0}
+.focus-check{width:28px;height:28px;border-radius:8px;border:2px solid var(--border-subtle);cursor:pointer;transition:all 0.25s;display:flex;align-items:center;justify-content:center;background:transparent;flex-shrink:0}
+.focus-check:hover{border-color:var(--green)}
+.focus-check.checked{background:var(--green);border-color:var(--green);transform:scale(1.1)}
+.focus-check.checked::after{content:'\\2713';color:#fff;font-size:16px;font-weight:800}
+.focus-progress{display:flex;flex-direction:column;align-items:center;margin-bottom:28px;position:relative}
+.focus-ring{width:150px;height:150px}
+.focus-ring-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:8}
+.focus-ring-fill{fill:none;stroke:url(#focusGrad);stroke-width:8;stroke-linecap:round;stroke-dasharray:326.73;stroke-dashoffset:326.73;transition:stroke-dashoffset 0.6s ease;transform:rotate(-90deg);transform-origin:center}
+.focus-progress-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.focus-progress-percent{font-family:'Outfit',sans-serif;font-size:36px;font-weight:900;color:var(--cyan)}
+.focus-progress-count{font-size:12px;color:var(--text-secondary);margin-top:2px}
+.focus-celebration{text-align:center;padding:32px 20px;animation:fadeIn 0.5s ease both}
+.focus-celebration-emoji{font-size:56px;margin-bottom:12px;animation:celebrateBounce 0.6s ease}
+.focus-celebration-title{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.focus-celebration-text{color:var(--text-secondary);font-size:14px}
+@keyframes celebrateBounce{0%{transform:scale(0)}50%{transform:scale(1.3)}70%{transform:scale(0.9)}100%{transform:scale(1)}}
+.focus-toggle{text-align:center;padding:20px}
+.btn-mode-toggle{background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-secondary);padding:10px 24px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.btn-mode-toggle:hover{border-color:var(--cyan);color:var(--text-primary)}
+
+/* Dashboard */
+#dashboard{display:none}#dashboard.visible{display:block}
+.dashboard-mode-bar{display:flex;justify-content:flex-end;margin-bottom:16px}
+.btn-focus-back{background:linear-gradient(135deg,var(--cyan),var(--indigo));color:#fff;border:none;padding:8px 18px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.btn-focus-back:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(34,211,238,0.3)}
+.header{padding:32px 0 24px;border-bottom:1px solid var(--border-subtle);margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+.header-brand{font-size:11px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.header-title{font-family:'Outfit',sans-serif;font-size:32px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--indigo))}
+.stat-label{font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.stat-value{font-family:'Outfit',sans-serif;font-size:32px;font-weight:800}
+.stat-card:nth-child(3) .stat-value{color:var(--gold)}
+.stat-card:nth-child(3)::before{background:linear-gradient(90deg,var(--gold),var(--orange))}
+.card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);overflow:hidden}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700}
+.card-header span{font-size:18px}
+.card-body{padding:20px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.grid-2-wide{display:grid;grid-template-columns:1.3fr 0.7fr;gap:20px;margin-bottom:24px}
+.full-width{margin-bottom:24px}
+.plan-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;background:rgba(34,211,238,0.15);color:var(--cyan)}
+.plan-title{font-size:18px;font-weight:700;margin-bottom:10px}
+.day-badge{display:inline-block;padding:4px 14px;border-radius:6px;font-size:12px;font-weight:600;background:rgba(255,255,255,0.08);margin-bottom:6px}
+.plan-schedule{font-size:13px;color:var(--text-secondary);margin-bottom:18px}
+.activity-list{list-style:none}
+.activity-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.2s}
+.activity-item:last-child{border-bottom:none}
+.activity-name{flex:1;font-size:14px;font-weight:500}
+.activity-time{font-size:12px;padding:3px 10px;border-radius:6px;font-weight:600}
+.activity-time.has-time{background:rgba(34,211,238,0.15);color:var(--cyan)}
+.activity-time.no-time{background:rgba(255,255,255,0.05);color:var(--text-muted)}
+.activity-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border-subtle);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;background:transparent;flex-shrink:0}
+.activity-check.checked{background:var(--green);border-color:var(--green)}
+.activity-check.checked::after{content:'\\2713';color:#fff;font-size:12px;font-weight:800}
+.activity-item.completed .activity-name{text-decoration:line-through;opacity:0.5}
+.progress-label{font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px}
+.progress-percent{font-family:'Outfit',sans-serif;font-size:56px;font-weight:900;color:var(--cyan);margin-bottom:12px}
+.progress-bar-container{width:100%;height:8px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.progress-bar-fill{height:100%;border-radius:10px;transition:width 0.5s ease;background:linear-gradient(90deg,var(--cyan),var(--green))}
+.progress-text{font-size:13px;color:var(--text-secondary)}
+.student-info{display:flex;gap:14px;margin-bottom:18px}
+.student-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--indigo))}
+.student-name{font-size:16px;font-weight:700}
+.student-phone{font-size:13px;color:var(--text-muted);margin-top:2px}
+.student-section{margin-bottom:14px}
+.student-section-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px;color:var(--red)}
+.student-section-value{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.student-meta{display:flex;flex-direction:column;gap:6px}
+.student-meta-row{display:flex;gap:12px;font-size:12px}
+.student-meta-label{color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:10px;min-width:150px}
+.student-meta-value{color:var(--text-secondary);font-weight:500}
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-subtle)}
+.data-table td{padding:10px 12px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.data-table tr:last-child td{border-bottom:none}
+.duration-badge{color:var(--cyan);font-weight:700}
+.format-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(99,102,241,0.15);color:var(--purple)}
+.prediction-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.prediction-box{background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);padding:16px;text-align:center}
+.prediction-box-label{font-size:10px;letter-spacing:1.5px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px}
+.prediction-box-value{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800}
+.prediction-box-value.cyan{color:var(--cyan)}
+.prediction-box-value.gold{color:var(--gold)}
+.prediction-date{text-align:center;margin-top:14px;font-size:13px;color:var(--text-secondary)}
+.prediction-date strong{color:var(--text-primary)}
+.conv-start{font-size:13px;color:var(--text-secondary);margin-bottom:14px}
+.conv-start strong{color:var(--text-primary)}
+.focus-conv-row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px}
+.focus-conv-row:last-child{border-bottom:none}
+.focus-conv-day{font-weight:700;min-width:80px;color:var(--text-primary)}
+.focus-conv-time{flex:1;color:var(--text-secondary)}
+.focus-conv-format{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;background:rgba(99,102,241,0.15);color:var(--purple)}
+.focus-conv-inicio{padding:14px 20px;font-size:13px;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.04)}
+.focus-conv-inicio strong{color:var(--cyan)}
+.footer-credit{text-align:center;padding:32px;color:var(--text-muted);font-size:12px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 0.4s ease both}
+@media(max-width:768px){.grid-2,.grid-2-wide{grid-template-columns:1fr}.stats-bar{grid-template-columns:1fr}.stat-value{font-size:26px}.progress-percent{font-size:40px}.prediction-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- FOCUS MODE -->
+<div id="focusMode" class="visible">
+  <div class="focus-greeting fade-in">
+    <div class="focus-greeting-emoji" id="focusGreetingEmoji"></div>
+    <h1 class="focus-greeting-text" id="focusGreetingText"></h1>
+    <p class="focus-date" id="focusDate"></p>
+  </div>
+  <div class="focus-schedule" id="focusSchedule"></div>
+  <div class="focus-card fade-in">
+    <div class="focus-card-header">Suas tarefas de hoje</div>
+    <ul class="focus-activity-list" id="focusActivityList"></ul>
+  </div>
+  <div class="focus-progress fade-in">
+    <svg class="focus-ring" viewBox="0 0 120 120">
+      <defs><linearGradient id="focusGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#34d399"/></linearGradient></defs>
+      <circle class="focus-ring-bg" cx="60" cy="60" r="52"/>
+      <circle class="focus-ring-fill" cx="60" cy="60" r="52" id="focusRingFill"/>
+    </svg>
+    <div class="focus-progress-text">
+      <div class="focus-progress-percent" id="focusProgressPercent">0%</div>
+      <div class="focus-progress-count" id="focusProgressCount">0 de ${acts.length}</div>
+    </div>
+  </div>
+  <div class="focus-celebration" id="focusCelebration" style="display:none;">
+    <div class="focus-celebration-emoji">&#127881;</div>
+    <h2 class="focus-celebration-title">Parabens!</h2>
+    <p class="focus-celebration-text">Voce concluiu todas as tarefas de hoje. Continue assim!</p>
+  </div>
+  <div class="focus-card fade-in" id="focusConversacao" style="display:none;">
+    <div class="focus-card-header">&#127908; Pratica de Conversacao</div>
+    <div id="focusConvBody"></div>
+  </div>
+  <div class="focus-toggle fade-in">
+    <button class="btn-mode-toggle" onclick="switchToFull()">&#128202; Modo Completo</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="dashboard-mode-bar"><button class="btn-focus-back" onclick="switchToFocus()">&#9201; Modo Foco</button></div>
+
+  <header class="header">
+    <div>
+      <div class="header-brand">Everyday Conversation</div>
+      <h1 class="header-title">Plano de Estudos</h1>
+    </div>
+  </header>
+
+  <div class="stats-bar fade-in">
+    <div class="stat-card"><div class="stat-label">&#128197; Dias por semana</div><div class="stat-value">${d.diasPorSemana || '\u2014'}</div></div>
+    <div class="stat-card"><div class="stat-label">&#9201; Tempo por dia</div><div class="stat-value">${d.tempoPorDia || '\u2014'}</div></div>
+    <div class="stat-card"><div class="stat-label">&#127919; Previsao</div><div class="stat-value" style="color:var(--gold);">${d.previsao.tempo || '\u2014'}</div></div>
+  </div>
+
+  <div class="grid-2-wide fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#9989;</span> Rotina de Hoje</div>
+      <div class="card-body">
+        <div class="plan-badge">Plano Diario</div>
+        <h2 class="plan-title">Tarefas para concluir</h2>
+        <div class="day-badge" id="dayBadge">Dia: \u2014</div>
+        <div class="plan-schedule" id="planSchedule">Horario: \u2014</div>
+        <ul class="activity-list" id="activityList"></ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:300px;">
+        <div class="progress-label">Progresso Diario</div>
+        <div class="progress-percent" id="progressPercent">0%</div>
+        <div class="progress-bar-container" style="width:100%;"><div class="progress-bar-fill" id="progressBar" style="width:0%;"></div></div>
+        <div class="progress-text" id="progressText">0 de ${acts.length} atividades concluidas.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#128100;</span> Aluno</div>
+      <div class="card-body">
+        <div class="student-info">
+          <div class="student-avatar">${getInitials(d.aluno || 'A')}</div>
+          <div><div class="student-name">${d.aluno || '\u2014'}</div><div class="student-phone">${d.telefone || '\u2014'}</div></div>
+        </div>
+        <div class="student-section">
+          <div class="student-section-label">Objetivos</div>
+          <div class="student-section-value">${d.objetivos || '\u2014'}</div>
+        </div>
+        <div class="student-meta">
+          <div class="student-meta-row"><span class="student-meta-label">Habilidade principal</span><span class="student-meta-value">${d.habilidade || '\u2014'}</span></div>
+          <div class="student-meta-row"><span class="student-meta-label">Nivel e Creditos</span><span class="student-meta-value">${(d.nivel || '\u2014') + (d.horasCreditadas ? ' \\u2022 ' + d.horasCreditadas : '')}</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span>&#128197;</span> Dias e Horarios</div>
+      <div class="card-body"><table class="data-table"><thead><tr><th>Dia</th><th>Planejamento</th><th>Duracao</th></tr></thead><tbody>${schedRows}</tbody></table></div>
+    </div>
+  </div>
+
+  <div class="full-width fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#128300;</span> Tempo por Dia</div>
+      <div class="card-body" style="overflow-x:auto;"><table class="data-table"><thead><tr><th>#</th><th>Atividade</th>${orderTh}</tr></thead><tbody>${orderRows}</tbody></table></div>
+    </div>
+  </div>
+
+  <div class="grid-2 fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#127908;</span> Pratica de Conversacao</div>
+      <div class="card-body">
+        <div class="conv-start">Inicio: <strong>${d.conversacao.inicio || '\u2014'}</strong></div>
+        <table class="data-table"><thead><tr><th>Dia</th><th>Horario</th><th>Formato</th></tr></thead><tbody>${convRows}</tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span>&#128202;</span> Previsao</div>
+      <div class="card-body">
+        <div class="prediction-grid">
+          <div class="prediction-box"><div class="prediction-box-label">Horas Restantes</div><div class="prediction-box-value cyan">${d.previsao.horas || '\u2014'}</div></div>
+          <div class="prediction-box"><div class="prediction-box-label">Previsao</div><div class="prediction-box-value gold">${d.previsao.tempo || '\u2014'}</div></div>
+        </div>
+        ${d.previsao.data ? '<div class="prediction-date">Data estimada: <strong>' + d.previsao.data + '</strong></div>' : ''}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-credit">Everyday Conversation &bull; Professor Whesley</div>
+</div>
+
+</div>
+<script>
+var completed = new Set();
+var actsData = ${JSON.stringify(actsMeta)};
+var schedData = ${JSON.stringify(d.diasHorarios)};
+var convData = ${JSON.stringify(d.conversacao || {inicio:'',horarios:[]})};
+var total = actsData.length;
+var tempoPorDia = '${d.tempoPorDia || ''}';
+
+function getGreeting() {
+  var h = new Date().getHours();
+  if (h >= 5 && h < 12) return { t: 'Bom dia', e: '\\u2600\\uFE0F' };
+  if (h >= 12 && h < 18) return { t: 'Boa tarde', e: '\\uD83C\\uDF24\\uFE0F' };
+  return { t: 'Boa noite', e: '\\uD83C\\uDF19' };
+}
+
+function getToday() {
+  var days = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+  return days[new Date().getDay()];
+}
+
+function init() {
+  var g = getGreeting();
+  var name = '${(d.aluno || 'Aluno').split(' ')[0]}';
+  document.getElementById('focusGreetingEmoji').textContent = g.e;
+  document.getElementById('focusGreetingText').textContent = g.t + ', ' + name + '!';
+  var opts = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  var ds = new Date().toLocaleDateString('pt-BR', opts);
+  document.getElementById('focusDate').textContent = ds.charAt(0).toUpperCase() + ds.slice(1);
+  var today = getToday();
+  var norm = function(s) { return s.toLowerCase().replace(/[\\u00e7\\u00e3]/g,''); };
+  var found = schedData.find(function(s) { return norm(s.dia) === norm(today); });
+  var pill = document.getElementById('focusSchedule');
+  if (found) {
+    pill.innerHTML = '<div class="focus-schedule-pill"><strong>' + today + '</strong><span class="pill-sep">|</span>' + found.horario + '<span class="pill-sep">|</span>' + tempoPorDia + '</div>';
+  } else {
+    pill.innerHTML = '<div class="focus-schedule-pill"><strong>' + today + '</strong><span class="pill-sep">|</span>Sem aula planejada para hoje</div>';
+  }
+  document.getElementById('dayBadge').textContent = 'Dia: ' + today;
+  document.getElementById('planSchedule').textContent = 'Horario: ' + (found ? found.horario : 'Sem aula hoje');
+
+  // Build focus activity list dynamically with today's times
+  var focusList = document.getElementById('focusActivityList');
+  focusList.innerHTML = '';
+  actsData.forEach(function(a, i) {
+    var t = (a.times && a.times[today]) || '';
+    var li = document.createElement('li');
+    li.className = 'focus-activity-item';
+    li.id = 'focus-act-' + i;
+    li.setAttribute('onclick', 'toggleAct(' + i + ')');
+    li.innerHTML = '<div class="focus-check" id="fcheck-' + i + '"></div>' +
+      '<div class="act-icon" style="background:' + a.color + ';">' + a.letter + '</div>' +
+      '<span class="focus-activity-name">' + a.name + (t ? '<small>' + t + '</small>' : '') + '</span>' +
+      (t ? '<span class="focus-activity-time">' + t + '</span>' : '');
+    focusList.appendChild(li);
+  });
+
+  // Build dashboard activity list with today's times
+  var dashList = document.getElementById('activityList');
+  dashList.innerHTML = '';
+  actsData.forEach(function(a, i) {
+    var t = (a.times && a.times[today]) || '';
+    var li = document.createElement('li');
+    li.className = 'activity-item';
+    li.id = 'act-' + i;
+    li.innerHTML = '<div class="act-icon" style="background:' + a.color + ';">' + a.letter + '</div>' +
+      '<span class="activity-name">' + a.name + (t ? ' (' + t + ')' : '') + '</span>' +
+      '<span class="activity-time ' + (t ? 'has-time' : 'no-time') + '">' + (t || 'sem tempo') + '</span>' +
+      '<div class="activity-check" onclick="toggleActDash(' + i + ')"></div>';
+    dashList.appendChild(li);
+  });
+
+  // Conversation Practice in Focus Mode
+  if (convData && convData.horarios && convData.horarios.length > 0) {
+    var convEl = document.getElementById('focusConversacao');
+    var convBody = document.getElementById('focusConvBody');
+    if (convEl && convBody) {
+      var inicio = convData.inicio || '';
+      var inicioLower = inicio.toLowerCase();
+      var hoje = new Date();
+      var dataInicio = null;
+      if (inicioLower === 'imediato') { dataInicio = hoje; }
+      else {
+        var dm = inicioLower.match(/(\\d+)\\s*dias?/);
+        var mm = inicioLower.match(/(\\d+)\\s*m/);
+        if (dm) { dataInicio = new Date(hoje); dataInicio.setDate(dataInicio.getDate()+parseInt(dm[1])); }
+        else if (mm) { dataInicio = new Date(hoje); dataInicio.setMonth(dataInicio.getMonth()+parseInt(mm[1])); }
+      }
+      var inicioHTML = inicio;
+      if (dataInicio) {
+        inicioHTML += ' \\u2014 ' + dataInicio.toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
+      }
+      var rows = '';
+      convData.horarios.forEach(function(h) {
+        rows += '<div class="focus-conv-row">' +
+          '<span class="focus-conv-day">' + h.dia + '</span>' +
+          '<span class="focus-conv-time">' + h.horario + '</span>' +
+          '<span class="focus-conv-format">' + h.formato + '</span></div>';
+      });
+      convBody.innerHTML = '<div class="focus-conv-inicio">Inicio: <strong>' + inicioHTML + '</strong></div>' + rows;
+      convEl.style.display = '';
+    }
+  }
+
+  highlight();
+}
+
+function toggleAct(i) {
+  if (completed.has(i)) completed.delete(i); else completed.add(i);
+  var f = document.getElementById('focus-act-' + i);
+  if (f) { f.classList.toggle('completed'); f.querySelector('.focus-check').classList.toggle('checked'); }
+  var d = document.getElementById('act-' + i);
+  if (d) { d.classList.toggle('completed'); d.querySelector('.activity-check').classList.toggle('checked'); }
+  highlight(); updateProgress();
+}
+
+function toggleActDash(i) { toggleAct(i); }
+
+function highlight() {
+  document.querySelectorAll('.focus-activity-item').forEach(function(el) { el.classList.remove('current'); });
+  for (var i = 0; i < total; i++) {
+    if (!completed.has(i)) { var el = document.getElementById('focus-act-' + i); if (el) el.classList.add('current'); break; }
+  }
+}
+
+function updateProgress() {
+  var done = completed.size;
+  var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  document.getElementById('focusProgressPercent').textContent = pct + '%';
+  document.getElementById('focusProgressCount').textContent = done + ' de ' + total;
+  var circ = 2 * Math.PI * 52;
+  document.getElementById('focusRingFill').style.strokeDashoffset = circ - (circ * pct / 100);
+  document.getElementById('focusCelebration').style.display = pct === 100 ? 'block' : 'none';
+  document.getElementById('progressPercent').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = done + ' de ' + total + ' atividades concluidas.';
+}
+
+function switchToFull() {
+  document.getElementById('focusMode').classList.remove('visible');
+  document.getElementById('dashboard').classList.add('visible');
+}
+function switchToFocus() {
+  document.getElementById('dashboard').classList.remove('visible');
+  document.getElementById('focusMode').classList.add('visible');
+}
+
+init();
+<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'plano-' + d.aluno.toLowerCase().replace(/\s+/g, '-') + '.html';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ========== AUTO-PARSE ON PASTE ========== */
+document.getElementById('emailText').addEventListener('paste', function() {
+  setTimeout(() => {
+    const text = this.value.trim();
+    if (text.includes('PLANO DE ESTUDOS') || text.includes('Aluno:')) {
+      generatePlan();
+    }
+  }, 100);
+});
+</script>
+</body>
+</html>

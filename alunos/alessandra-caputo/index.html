@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Estudos - Alessandra Caputo</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg-deep:#020617;--bg-surface:#0f172a;--bg-card:rgba(255,255,255,0.04);--bg-card-hover:rgba(255,255,255,0.07);--border-subtle:rgba(255,255,255,0.08);--border-active:rgba(34,211,238,0.5);--cyan:#22d3ee;--indigo:#6366f1;--purple:#818cf8;--gold:#fbbf24;--pink:#f472b6;--blue:#60a5fa;--green:#34d399;--red:#ef4444;--orange:#f97316;--amber:#f59e0b;--text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;--radius:16px;--radius-sm:12px}
+body{font-family:'Plus Jakarta Sans',sans-serif;background-color:var(--bg-deep);color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased;background:radial-gradient(1200px 700px at 15% 10%,rgba(34,211,238,0.08),transparent 60%),radial-gradient(900px 600px at 85% 20%,rgba(29,78,216,0.10),transparent 55%),radial-gradient(900px 650px at 50% 80%,rgba(124,58,237,0.07),transparent 60%),linear-gradient(180deg,#0b1430 0%,#070b16 55%,#050712 100%);background-attachment:fixed}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+
+/* Focus Mode */
+#focusMode{display:none}#focusMode.visible{display:block}
+.focus-greeting{text-align:center;padding:48px 20px 20px}
+.focus-greeting-emoji{font-size:48px;margin-bottom:12px}
+.focus-greeting-text{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.focus-date{color:var(--text-secondary);font-size:14px}
+.focus-schedule{text-align:center;margin-bottom:28px}
+.focus-schedule-pill{display:inline-flex;align-items:center;gap:14px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:24px;padding:10px 24px;font-size:13px;color:var(--text-secondary)}
+.focus-schedule-pill strong{color:var(--cyan);font-weight:700}
+.focus-schedule-pill .pill-sep{color:var(--text-muted)}
+.focus-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);max-width:600px;margin:0 auto 28px;overflow:hidden}
+.focus-card-header{padding:14px 20px;border-bottom:1px solid var(--border-subtle);font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px}
+.focus-activity-list{list-style:none}
+.focus-activity-item{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.04);transition:all 0.2s;cursor:pointer}
+.focus-activity-item:last-child{border-bottom:none}
+.focus-activity-item:hover{background:var(--bg-card-hover)}
+.focus-activity-item.current{background:rgba(34,211,238,0.06);border-left:3px solid var(--cyan)}
+.focus-activity-item.completed .focus-activity-name{text-decoration:line-through;opacity:0.4}
+.focus-activity-item.completed .focus-activity-time{opacity:0.4}
+.focus-activity-item.completed .act-icon{opacity:0.4}
+.focus-activity-name{flex:1;font-size:15px;font-weight:500}
+.focus-activity-name small{display:block;font-size:11px;color:var(--text-muted);font-weight:400;margin-top:2px}
+.focus-activity-time{font-size:12px;padding:4px 12px;border-radius:8px;font-weight:600;background:rgba(34,211,238,0.12);color:var(--cyan)}
+.act-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0;letter-spacing:0}
+.focus-check{width:28px;height:28px;border-radius:8px;border:2px solid var(--border-subtle);cursor:pointer;transition:all 0.25s;display:flex;align-items:center;justify-content:center;background:transparent;flex-shrink:0}
+.focus-check:hover{border-color:var(--green)}
+.focus-check.checked{background:var(--green);border-color:var(--green);transform:scale(1.1)}
+.focus-check.checked::after{content:'\2713';color:#fff;font-size:16px;font-weight:800}
+.focus-progress{display:flex;flex-direction:column;align-items:center;margin-bottom:28px;position:relative}
+.focus-ring{width:150px;height:150px}
+.focus-ring-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:8}
+.focus-ring-fill{fill:none;stroke:url(#focusGrad);stroke-width:8;stroke-linecap:round;stroke-dasharray:326.73;stroke-dashoffset:326.73;transition:stroke-dashoffset 0.6s ease;transform:rotate(-90deg);transform-origin:center}
+.focus-progress-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.focus-progress-percent{font-family:'Outfit',sans-serif;font-size:36px;font-weight:900;color:var(--cyan)}
+.focus-progress-count{font-size:12px;color:var(--text-secondary);margin-top:2px}
+.focus-celebration{text-align:center;padding:32px 20px;animation:fadeIn 0.5s ease both}
+.focus-celebration-emoji{font-size:56px;margin-bottom:12px;animation:celebrateBounce 0.6s ease}
+.focus-celebration-title{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.focus-celebration-text{color:var(--text-secondary);font-size:14px}
+@keyframes celebrateBounce{0%{transform:scale(0)}50%{transform:scale(1.3)}70%{transform:scale(0.9)}100%{transform:scale(1)}}
+.focus-toggle{text-align:center;padding:20px}
+.btn-mode-toggle{background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-secondary);padding:10px 24px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.btn-mode-toggle:hover{border-color:var(--cyan);color:var(--text-primary)}
+
+/* Dashboard */
+#dashboard{display:none}#dashboard.visible{display:block}
+.dashboard-mode-bar{display:flex;justify-content:flex-end;margin-bottom:16px}
+.btn-focus-back{background:linear-gradient(135deg,var(--cyan),var(--indigo));color:#fff;border:none;padding:8px 18px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.btn-focus-back:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(34,211,238,0.3)}
+.header{padding:32px 0 24px;border-bottom:1px solid var(--border-subtle);margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px}
+.header-brand{font-size:11px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.header-title{font-family:'Outfit',sans-serif;font-size:32px;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,#fff 0%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--indigo))}
+.stat-label{font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.stat-value{font-family:'Outfit',sans-serif;font-size:32px;font-weight:800}
+.stat-card:nth-child(3) .stat-value{color:var(--gold)}
+.stat-card:nth-child(3)::before{background:linear-gradient(90deg,var(--gold),var(--orange))}
+.card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);overflow:hidden}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700}
+.card-header span{font-size:18px}
+.card-body{padding:20px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.grid-2-wide{display:grid;grid-template-columns:1.3fr 0.7fr;gap:20px;margin-bottom:24px}
+.full-width{margin-bottom:24px}
+.plan-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;background:rgba(34,211,238,0.15);color:var(--cyan)}
+.plan-title{font-size:18px;font-weight:700;margin-bottom:10px}
+.day-badge{display:inline-block;padding:4px 14px;border-radius:6px;font-size:12px;font-weight:600;background:rgba(255,255,255,0.08);margin-bottom:6px}
+.plan-schedule{font-size:13px;color:var(--text-secondary);margin-bottom:18px}
+.activity-list{list-style:none}
+.activity-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.2s}
+.activity-item:last-child{border-bottom:none}
+.activity-name{flex:1;font-size:14px;font-weight:500}
+.activity-time{font-size:12px;padding:3px 10px;border-radius:6px;font-weight:600}
+.activity-time.has-time{background:rgba(34,211,238,0.15);color:var(--cyan)}
+.activity-time.no-time{background:rgba(255,255,255,0.05);color:var(--text-muted)}
+.activity-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border-subtle);cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;background:transparent;flex-shrink:0}
+.activity-check.checked{background:var(--green);border-color:var(--green)}
+.activity-check.checked::after{content:'\2713';color:#fff;font-size:12px;font-weight:800}
+.activity-item.completed .activity-name{text-decoration:line-through;opacity:0.5}
+.progress-label{font-size:10px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px}
+.progress-percent{font-family:'Outfit',sans-serif;font-size:56px;font-weight:900;color:var(--cyan);margin-bottom:12px}
+.progress-bar-container{width:100%;height:8px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.progress-bar-fill{height:100%;border-radius:10px;transition:width 0.5s ease;background:linear-gradient(90deg,var(--cyan),var(--green))}
+.progress-text{font-size:13px;color:var(--text-secondary)}
+.student-info{display:flex;gap:14px;margin-bottom:18px}
+.student-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--indigo))}
+.student-name{font-size:16px;font-weight:700}
+.student-phone{font-size:13px;color:var(--text-muted);margin-top:2px}
+.student-section{margin-bottom:14px}
+.student-section-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px;color:var(--red)}
+.student-section-value{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.student-meta{display:flex;flex-direction:column;gap:6px}
+.student-meta-row{display:flex;gap:12px;font-size:12px}
+.student-meta-label{color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;font-size:10px;min-width:150px}
+.student-meta-value{color:var(--text-secondary);font-weight:500}
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:600;text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-subtle)}
+.data-table td{padding:10px 12px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.data-table tr:last-child td{border-bottom:none}
+.duration-badge{color:var(--cyan);font-weight:700}
+.format-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:rgba(99,102,241,0.15);color:var(--purple)}
+.prediction-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.prediction-box{background:rgba(0,0,0,0.2);border-radius:var(--radius-sm);padding:16px;text-align:center}
+.prediction-box-label{font-size:10px;letter-spacing:1.5px;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px}
+.prediction-box-value{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800}
+.prediction-box-value.cyan{color:var(--cyan)}
+.prediction-box-value.gold{color:var(--gold)}
+.prediction-date{text-align:center;margin-top:14px;font-size:13px;color:var(--text-secondary)}
+.prediction-date strong{color:var(--text-primary)}
+.conv-start{font-size:13px;color:var(--text-secondary);margin-bottom:14px}
+.conv-start strong{color:var(--text-primary)}
+.focus-conv-row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px}
+.focus-conv-row:last-child{border-bottom:none}
+.focus-conv-day{font-weight:700;min-width:80px;color:var(--text-primary)}
+.focus-conv-time{flex:1;color:var(--text-secondary)}
+.focus-conv-format{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;background:rgba(99,102,241,0.15);color:var(--purple)}
+.focus-conv-inicio{padding:14px 20px;font-size:13px;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.04)}
+.focus-conv-inicio strong{color:var(--cyan)}
+.footer-credit{text-align:center;padding:32px;color:var(--text-muted);font-size:12px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 0.4s ease both}
+@media(max-width:768px){.grid-2,.grid-2-wide{grid-template-columns:1fr}.stats-bar{grid-template-columns:1fr}.stat-value{font-size:26px}.progress-percent{font-size:40px}.prediction-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- FOCUS MODE -->
+<div id="focusMode" class="visible">
+  <div class="focus-greeting fade-in">
+    <div class="focus-greeting-emoji" id="focusGreetingEmoji"></div>
+    <h1 class="focus-greeting-text" id="focusGreetingText"></h1>
+    <p class="focus-date" id="focusDate"></p>
+  </div>
+  <div class="focus-schedule" id="focusSchedule"></div>
+  <div class="focus-card fade-in">
+    <div class="focus-card-header">Suas tarefas de hoje</div>
+    <ul class="focus-activity-list" id="focusActivityList"></ul>
+  </div>
+  <div class="focus-progress fade-in">
+    <svg class="focus-ring" viewBox="0 0 120 120">
+      <defs><linearGradient id="focusGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#34d399"/></linearGradient></defs>
+      <circle class="focus-ring-bg" cx="60" cy="60" r="52"/>
+      <circle class="focus-ring-fill" cx="60" cy="60" r="52" id="focusRingFill"/>
+    </svg>
+    <div class="focus-progress-text">
+      <div class="focus-progress-percent" id="focusProgressPercent">0%</div>
+      <div class="focus-progress-count" id="focusProgressCount">0 de 8</div>
+    </div>
+  </div>
+  <div class="focus-celebration" id="focusCelebration" style="display:none;">
+    <div class="focus-celebration-emoji">&#127881;</div>
+    <h2 class="focus-celebration-title">Parabens!</h2>
+    <p class="focus-celebration-text">Voce concluiu todas as tarefas de hoje. Continue assim!</p>
+  </div>
+  <div class="focus-card fade-in" id="focusConversacao" style="display:none;">
+    <div class="focus-card-header">&#127908; Pratica de Conversacao</div>
+    <div id="focusConvBody"></div>
+  </div>
+  <div class="focus-toggle fade-in">
+    <button class="btn-mode-toggle" onclick="switchToFull()">&#128202; Modo Completo</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="dashboard-mode-bar"><button class="btn-focus-back" onclick="switchToFocus()">&#9201; Modo Foco</button></div>
+
+  <header class="header">
+    <div>
+      <div class="header-brand">Everyday Conversation</div>
+      <h1 class="header-title">Plano de Estudos</h1>
+    </div>
+  </header>
+
+  <div class="stats-bar fade-in">
+    <div class="stat-card"><div class="stat-label">&#128197; Dias por semana</div><div class="stat-value">7</div></div>
+    <div class="stat-card"><div class="stat-label">&#9201; Tempo por dia</div><div class="stat-value">90 min</div></div>
+    <div class="stat-card"><div class="stat-label">&#127919; Previsao</div><div class="stat-value" style="color:var(--gold);">~9 meses</div></div>
+  </div>
+
+  <div class="grid-2-wide fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#9989;</span> Rotina de Hoje</div>
+      <div class="card-body">
+        <div class="plan-badge">Plano Diario</div>
+        <h2 class="plan-title">Tarefas para concluir</h2>
+        <div class="day-badge" id="dayBadge">Dia: —</div>
+        <div class="plan-schedule" id="planSchedule">Horario: —</div>
+        <ul class="activity-list" id="activityList"></ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:300px;">
+        <div class="progress-label">Progresso Diario</div>
+        <div class="progress-percent" id="progressPercent">0%</div>
+        <div class="progress-bar-container" style="width:100%;"><div class="progress-bar-fill" id="progressBar" style="width:0%;"></div></div>
+        <div class="progress-text" id="progressText">0 de 8 atividades concluidas.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#128100;</span> Aluno</div>
+      <div class="card-body">
+        <div class="student-info">
+          <div class="student-avatar">AC</div>
+          <div><div class="student-name">Alessandra Caputo</div><div class="student-phone">21982013273</div></div>
+        </div>
+        <div class="student-section">
+          <div class="student-section-label">Objetivos</div>
+          <div class="student-section-value">Trabalho e carreira profissional, Entender músicas em inglês, Desenvolvimento pessoal e autoconfiança, Filmes e séries sem legenda</div>
+        </div>
+        <div class="student-meta">
+          <div class="student-meta-row"><span class="student-meta-label">Habilidade principal</span><span class="student-meta-value">Habilidade de falar / Comunicação</span></div>
+          <div class="student-meta-row"><span class="student-meta-label">Nivel e Creditos</span><span class="student-meta-value">Iniciante \u2022 0h</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span>&#128197;</span> Dias e Horarios</div>
+      <div class="card-body"><table class="data-table"><thead><tr><th>Dia</th><th>Planejamento</th><th>Duracao</th></tr></thead><tbody><tr><td>Segunda</td><td>Manha as 7h</td><td class="duration-badge">90 min</td></tr><tr><td>Terca</td><td>Manha as 7h</td><td class="duration-badge">90 min</td></tr><tr><td>Quarta</td><td>Manha as 7h</td><td class="duration-badge">90 min</td></tr><tr><td>Quinta</td><td>Manha as 7h</td><td class="duration-badge">90 min</td></tr><tr><td>Sexta</td><td>Manha as 7h</td><td class="duration-badge">90 min</td></tr><tr><td>Sabado</td><td>Manha as 7h</td><td class="duration-badge">90 min</td></tr><tr><td>Domingo</td><td>Manha as 7h</td><td class="duration-badge">90 min</td></tr></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="full-width fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#128300;</span> Tempo por Dia</div>
+      <div class="card-body" style="overflow-x:auto;"><table class="data-table"><thead><tr><th>#</th><th>Atividade</th><th style="text-align:center;">Seg</th><th style="text-align:center;">Ter</th><th style="text-align:center;">Qua</th><th style="text-align:center;">Qui</th><th style="text-align:center;">Sex</th><th style="text-align:center;">Sab</th><th style="text-align:center;">Dom</th></tr></thead><tbody><tr><td style="font-weight:700;color:var(--text-muted);">1</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#ef4444;">F</div><span style="font-weight:500;">Flashcard</span></div></td><td style="text-align:center;"><span class="activity-time has-time">15</span></td><td style="text-align:center;"><span class="activity-time has-time">20</span></td><td style="text-align:center;"><span class="activity-time has-time">15</span></td><td style="text-align:center;"><span class="activity-time has-time">20</span></td><td style="text-align:center;"><span class="activity-time has-time">20</span></td><td style="text-align:center;"><span class="activity-time has-time">15</span></td><td style="text-align:center;"><span class="activity-time has-time">20</span></td></tr><tr><td style="font-weight:700;color:var(--text-muted);">2</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#6366f1;">P</div><span style="font-weight:500;">Plataforma de Ensino</span></div></td><td style="text-align:center;"><span class="activity-time has-time">25</span></td><td style="text-align:center;"><span class="activity-time has-time">0</span></td><td style="text-align:center;"><span class="activity-time has-time">25</span></td><td style="text-align:center;"><span class="activity-time has-time">0</span></td><td style="text-align:center;"><span class="activity-time no-time">—</span></td><td style="text-align:center;"><span class="activity-time has-time">25</span></td><td style="text-align:center;"><span class="activity-time no-time">—</span></td></tr><tr><td style="font-weight:700;color:var(--text-muted);">3</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#ef4444;">&#9654;</div><span style="font-weight:500;">Listening 2</span></div></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td></tr><tr><td style="font-weight:700;color:var(--text-muted);">4</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#3b82f6;">L</div><span style="font-weight:500;">Listening 1</span></div></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td></tr><tr><td style="font-weight:700;color:var(--text-muted);">5</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#ec4899;">P</div><span style="font-weight:500;">Pronuncia</span></div></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td></tr><tr><td style="font-weight:700;color:var(--text-muted);">6</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#f59e0b;">E</div><span style="font-weight:500;">Escrita e Gramatica</span></div></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td></tr><tr><td style="font-weight:700;color:var(--text-muted);">7</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#22c55e;">T</div><span style="font-weight:500;">Traducao</span></div></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td></tr><tr><td style="font-weight:700;color:var(--text-muted);">8</td><td><div style="display:flex;align-items:center;gap:10px;"><div class="act-icon" style="background:#f97316;">A</div><span style="font-weight:500;">Treinador de Verbos</span></div></td><td style="text-align:center;"><span class="activity-time no-time">—</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time no-time">—</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td><td style="text-align:center;"><span class="activity-time no-time">—</span></td><td style="text-align:center;"><span class="activity-time has-time">10</span></td></tr></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="grid-2 fade-in">
+    <div class="card">
+      <div class="card-header"><span>&#127908;</span> Pratica de Conversacao</div>
+      <div class="card-body">
+        <div class="conv-start">Inicio: <strong>Imediato</strong></div>
+        <table class="data-table"><thead><tr><th>Dia</th><th>Horario</th><th>Formato</th></tr></thead><tbody><tr><td>Segunda</td><td>16h00 - 16h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Segunda</td><td>21h20 - 22h07</td><td><span class="format-badge">Prof. o tempo todo</span></td></tr><tr><td>Terca</td><td>16h00 - 16h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Terca</td><td>20h00 - 20h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Quarta</td><td>9h00 - 9h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Quarta</td><td>20h00 - 20h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Quinta</td><td>16h00 - 16h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Quinta</td><td>20h00 - 20h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Sexta</td><td>21h20 - 22h07</td><td><span class="format-badge">Prof. o tempo todo</span></td></tr><tr><td>Sexta</td><td>16h00 - 16h47</td><td><span class="format-badge">Prof. metade do tempo</span></td></tr><tr><td>Sabado</td><td>10h00 - 11h07</td><td><span class="format-badge">Prof. o tempo todo</span></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span>&#128202;</span> Previsao</div>
+      <div class="card-body">
+        <div class="prediction-grid">
+          <div class="prediction-box"><div class="prediction-box-label">Horas Restantes</div><div class="prediction-box-value cyan">600h</div></div>
+          <div class="prediction-box"><div class="prediction-box-label">Previsao</div><div class="prediction-box-value gold">~9 meses</div></div>
+        </div>
+        <div class="prediction-date">Data estimada: <strong>novembro de 2026</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-credit">Everyday Conversation &bull; Professor Whesley</div>
+</div>
+
+</div>
+<script>
+var completed = new Set();
+var actsData = [{"num":1,"name":"Flashcard","times":{"Segunda":"15","Terca":"20","Quarta":"15","Quinta":"20","Sexta":"20","Sabado":"15","Domingo":"20"},"color":"#ef4444","letter":"F"},{"num":2,"name":"Plataforma de Ensino","times":{"Segunda":"25","Terca":"0","Quarta":"25","Quinta":"0","Sexta":"","Sabado":"25","Domingo":""},"color":"#6366f1","letter":"P"},{"num":3,"name":"Listening 2","times":{"Segunda":"10","Terca":"10","Quarta":"10","Quinta":"10","Sexta":"10","Sabado":"10","Domingo":"10"},"color":"#ef4444","letter":"&#9654;"},{"num":4,"name":"Listening 1","times":{"Segunda":"10","Terca":"10","Quarta":"10","Quinta":"10","Sexta":"10","Sabado":"10","Domingo":"10"},"color":"#3b82f6","letter":"L"},{"num":5,"name":"Pronuncia","times":{"Segunda":"10","Terca":"10","Quarta":"10","Quinta":"10","Sexta":"10","Sabado":"10","Domingo":"10"},"color":"#ec4899","letter":"P"},{"num":6,"name":"Escrita e Gramatica","times":{"Segunda":"10","Terca":"10","Quarta":"10","Quinta":"10","Sexta":"10","Sabado":"10","Domingo":"10"},"color":"#f59e0b","letter":"E"},{"num":7,"name":"Traducao","times":{"Segunda":"10","Terca":"10","Quarta":"10","Quinta":"10","Sexta":"10","Sabado":"10","Domingo":"10"},"color":"#22c55e","letter":"T"},{"num":8,"name":"Treinador de Verbos","times":{"Segunda":"","Terca":"10","Quarta":"","Quinta":"10","Sexta":"10","Sabado":"","Domingo":"10"},"color":"#f97316","letter":"A"}];
+var schedData = [{"dia":"Segunda","horario":"Manha as 7h"},{"dia":"Terca","horario":"Manha as 7h"},{"dia":"Quarta","horario":"Manha as 7h"},{"dia":"Quinta","horario":"Manha as 7h"},{"dia":"Sexta","horario":"Manha as 7h"},{"dia":"Sabado","horario":"Manha as 7h"},{"dia":"Domingo","horario":"Manha as 7h"}];
+var convData = {"inicio":"Imediato","horarios":[{"dia":"Segunda","horario":"16h00 - 16h47","formato":"Prof. metade do tempo"},{"dia":"Segunda","horario":"21h20 - 22h07","formato":"Prof. o tempo todo"},{"dia":"Terca","horario":"16h00 - 16h47","formato":"Prof. metade do tempo"},{"dia":"Terca","horario":"20h00 - 20h47","formato":"Prof. metade do tempo"},{"dia":"Quarta","horario":"9h00 - 9h47","formato":"Prof. metade do tempo"},{"dia":"Quarta","horario":"20h00 - 20h47","formato":"Prof. metade do tempo"},{"dia":"Quinta","horario":"16h00 - 16h47","formato":"Prof. metade do tempo"},{"dia":"Quinta","horario":"20h00 - 20h47","formato":"Prof. metade do tempo"},{"dia":"Sexta","horario":"21h20 - 22h07","formato":"Prof. o tempo todo"},{"dia":"Sexta","horario":"16h00 - 16h47","formato":"Prof. metade do tempo"},{"dia":"Sabado","horario":"10h00 - 11h07","formato":"Prof. o tempo todo"}],"dataInicio":"2026-02-24T23:32:26.309Z"};
+var total = actsData.length;
+var tempoPorDia = '90 min';
+
+function getGreeting() {
+  var h = new Date().getHours();
+  if (h >= 5 && h < 12) return { t: 'Bom dia', e: '\u2600\uFE0F' };
+  if (h >= 12 && h < 18) return { t: 'Boa tarde', e: '\uD83C\uDF24\uFE0F' };
+  return { t: 'Boa noite', e: '\uD83C\uDF19' };
+}
+
+function getToday() {
+  var days = ['Domingo','Segunda','Terca','Quarta','Quinta','Sexta','Sabado'];
+  return days[new Date().getDay()];
+}
+
+function init() {
+  var g = getGreeting();
+  var name = 'Alessandra';
+  document.getElementById('focusGreetingEmoji').textContent = g.e;
+  document.getElementById('focusGreetingText').textContent = g.t + ', ' + name + '!';
+  var opts = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+  var ds = new Date().toLocaleDateString('pt-BR', opts);
+  document.getElementById('focusDate').textContent = ds.charAt(0).toUpperCase() + ds.slice(1);
+  var today = getToday();
+  var norm = function(s) { return s.toLowerCase().replace(/[\u00e7\u00e3]/g,''); };
+  var found = schedData.find(function(s) { return norm(s.dia) === norm(today); });
+  var pill = document.getElementById('focusSchedule');
+  if (found) {
+    pill.innerHTML = '<div class="focus-schedule-pill"><strong>' + today + '</strong><span class="pill-sep">|</span>' + found.horario + '<span class="pill-sep">|</span>' + tempoPorDia + '</div>';
+  } else {
+    pill.innerHTML = '<div class="focus-schedule-pill"><strong>' + today + '</strong><span class="pill-sep">|</span>Sem aula planejada para hoje</div>';
+  }
+  document.getElementById('dayBadge').textContent = 'Dia: ' + today;
+  document.getElementById('planSchedule').textContent = 'Horario: ' + (found ? found.horario : 'Sem aula hoje');
+
+  // Build focus activity list dynamically with today's times
+  var focusList = document.getElementById('focusActivityList');
+  focusList.innerHTML = '';
+  actsData.forEach(function(a, i) {
+    var t = (a.times && a.times[today]) || '';
+    var li = document.createElement('li');
+    li.className = 'focus-activity-item';
+    li.id = 'focus-act-' + i;
+    li.setAttribute('onclick', 'toggleAct(' + i + ')');
+    li.innerHTML = '<div class="focus-check" id="fcheck-' + i + '"></div>' +
+      '<div class="act-icon" style="background:' + a.color + ';">' + a.letter + '</div>' +
+      '<span class="focus-activity-name">' + a.name + (t ? '<small>' + t + '</small>' : '') + '</span>' +
+      (t ? '<span class="focus-activity-time">' + t + '</span>' : '');
+    focusList.appendChild(li);
+  });
+
+  // Build dashboard activity list with today's times
+  var dashList = document.getElementById('activityList');
+  dashList.innerHTML = '';
+  actsData.forEach(function(a, i) {
+    var t = (a.times && a.times[today]) || '';
+    var li = document.createElement('li');
+    li.className = 'activity-item';
+    li.id = 'act-' + i;
+    li.innerHTML = '<div class="act-icon" style="background:' + a.color + ';">' + a.letter + '</div>' +
+      '<span class="activity-name">' + a.name + (t ? ' (' + t + ')' : '') + '</span>' +
+      '<span class="activity-time ' + (t ? 'has-time' : 'no-time') + '">' + (t || 'sem tempo') + '</span>' +
+      '<div class="activity-check" onclick="toggleActDash(' + i + ')"></div>';
+    dashList.appendChild(li);
+  });
+
+  // Conversation Practice in Focus Mode
+  if (convData && convData.horarios && convData.horarios.length > 0) {
+    var convEl = document.getElementById('focusConversacao');
+    var convBody = document.getElementById('focusConvBody');
+    if (convEl && convBody) {
+      var inicio = convData.inicio || '';
+      var inicioLower = inicio.toLowerCase();
+      var hoje = new Date();
+      var dataInicio = null;
+      if (inicioLower === 'imediato') { dataInicio = hoje; }
+      else {
+        var dm = inicioLower.match(/(\d+)\s*dias?/);
+        var mm = inicioLower.match(/(\d+)\s*m/);
+        if (dm) { dataInicio = new Date(hoje); dataInicio.setDate(dataInicio.getDate()+parseInt(dm[1])); }
+        else if (mm) { dataInicio = new Date(hoje); dataInicio.setMonth(dataInicio.getMonth()+parseInt(mm[1])); }
+      }
+      var inicioHTML = inicio;
+      if (dataInicio) {
+        inicioHTML += ' \u2014 ' + dataInicio.toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
+      }
+      var rows = '';
+      convData.horarios.forEach(function(h) {
+        rows += '<div class="focus-conv-row">' +
+          '<span class="focus-conv-day">' + h.dia + '</span>' +
+          '<span class="focus-conv-time">' + h.horario + '</span>' +
+          '<span class="focus-conv-format">' + h.formato + '</span></div>';
+      });
+      convBody.innerHTML = '<div class="focus-conv-inicio">Inicio: <strong>' + inicioHTML + '</strong></div>' + rows;
+      convEl.style.display = '';
+    }
+  }
+
+  highlight();
+}
+
+function toggleAct(i) {
+  if (completed.has(i)) completed.delete(i); else completed.add(i);
+  var f = document.getElementById('focus-act-' + i);
+  if (f) { f.classList.toggle('completed'); f.querySelector('.focus-check').classList.toggle('checked'); }
+  var d = document.getElementById('act-' + i);
+  if (d) { d.classList.toggle('completed'); d.querySelector('.activity-check').classList.toggle('checked'); }
+  highlight(); updateProgress();
+}
+
+function toggleActDash(i) { toggleAct(i); }
+
+function highlight() {
+  document.querySelectorAll('.focus-activity-item').forEach(function(el) { el.classList.remove('current'); });
+  for (var i = 0; i < total; i++) {
+    if (!completed.has(i)) { var el = document.getElementById('focus-act-' + i); if (el) el.classList.add('current'); break; }
+  }
+}
+
+function updateProgress() {
+  var done = completed.size;
+  var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  document.getElementById('focusProgressPercent').textContent = pct + '%';
+  document.getElementById('focusProgressCount').textContent = done + ' de ' + total;
+  var circ = 2 * Math.PI * 52;
+  document.getElementById('focusRingFill').style.strokeDashoffset = circ - (circ * pct / 100);
+  document.getElementById('focusCelebration').style.display = pct === 100 ? 'block' : 'none';
+  document.getElementById('progressPercent').textContent = pct + '%';
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = done + ' de ' + total + ' atividades concluidas.';
+}
+
+function switchToFull() {
+  document.getElementById('focusMode').classList.remove('visible');
+  document.getElementById('dashboard').classList.add('visible');
+}
+function switchToFocus() {
+  document.getElementById('dashboard').classList.remove('visible');
+  document.getElementById('focusMode').classList.add('visible');
+}
+
+init();
+</script>
+</body>
+</html>
