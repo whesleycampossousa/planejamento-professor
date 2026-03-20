@@ -1,0 +1,85 @@
+{
+  "slug": "nathan-samuel",
+  "data": {
+    "aluno": "Nathan Samuel",
+    "telefone": "(19) 99950-1428",
+    "objetivos": "Trabalho e carreira profissional, Jogos online (gaming), Viagens internacionais, Filmes e séries sem legenda, Desenvolvimento pessoal e autoconfiança, Entender músicas em inglês",
+    "habilidade": "Habilidade de falar / Comunicação",
+    "nivel": "Pré-intermediário",
+    "horasCreditadas": "150h",
+    "tempoPorDia": 60,
+    "diasPorSemana": 6,
+    "diasHorarios": [
+      {"dia": "Segunda", "horario": "Manhã às 10h"},
+      {"dia": "Terça", "horario": "Manhã às 10h"},
+      {"dia": "Quarta", "horario": "Manhã às 10h"},
+      {"dia": "Quinta", "horario": "Manhã às 10h"},
+      {"dia": "Sexta", "horario": "Manhã às 10h"},
+      {"dia": "Sábado", "horario": "Manhã às 10h"}
+    ],
+    "atividades": [
+      {
+        "num": 1,
+        "name": "Flashcard",
+        "time": "15 min",
+        "times": {"Segunda": 15, "Terça": 15, "Quarta": 15, "Quinta": 15, "Sexta": 15, "Sábado": 15}
+      },
+      {
+        "num": 2,
+        "name": "Plataforma de Ensino",
+        "time": "25 min",
+        "times": {"Segunda": "", "Terça": "", "Quarta": 25, "Quinta": "", "Sexta": "", "Sábado": 25}
+      },
+      {
+        "num": 3,
+        "name": "Escrita e Gramática",
+        "time": "10 min",
+        "times": {"Segunda": 10, "Terça": 10, "Quarta": "", "Quinta": 10, "Sexta": 5, "Sábado": ""}
+      },
+      {
+        "num": 4,
+        "name": "Tradução",
+        "time": "5 min",
+        "times": {"Segunda": 5, "Terça": 5, "Quarta": 5, "Quinta": 5, "Sexta": 5, "Sábado": 5}
+      },
+      {
+        "num": 5,
+        "name": "Pronúncia",
+        "time": "10 min",
+        "times": {"Segunda": 10, "Terça": 10, "Quarta": "", "Quinta": 10, "Sexta": 10, "Sábado": ""}
+      },
+      {
+        "num": 6,
+        "name": "Listening 1",
+        "time": "10 min",
+        "times": {"Segunda": 10, "Terça": 10, "Quarta": "", "Quinta": 10, "Sexta": 5, "Sábado": ""}
+      },
+      {
+        "num": 7,
+        "name": "Listening 2",
+        "time": "10 min",
+        "times": {"Segunda": 10, "Terça": 10, "Quarta": 10, "Quinta": 10, "Sexta": 10, "Sábado": 10}
+      },
+      {
+        "num": 8,
+        "name": "Treinador de Verbos",
+        "time": "10 min",
+        "times": {"Segunda": "", "Terça": "", "Quarta": "", "Quinta": "", "Sexta": 10, "Sábado": ""}
+      },
+      {
+        "num": 9,
+        "name": "Soletração",
+        "time": "5 min",
+        "times": {"Segunda": "", "Terça": "", "Quarta": 5, "Quinta": "", "Sexta": "", "Sábado": 5}
+      }
+    ],
+    "conversacao": {
+      "inicio": "Imediato",
+      "horarios": [
+        {"dia": "Quarta", "horario": "9h00 - 9h47", "formato": "Prof. metade do tempo"},
+        {"dia": "Sábado", "horario": "10h00 - 11h07", "formato": "Prof. o tempo todo"}
+      ]
+    },
+    "previsao": {"horas": "450h", "tempo": "~11 meses", "data": "fevereiro de 2027"}
+  }
+}
